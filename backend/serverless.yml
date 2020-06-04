@@ -50,3 +50,21 @@ functions:
         Action:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
+
+resources:
+  Resources:
+    QuestionsDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: questionId
+            AttributeType: S
+        KeySchema:
+           - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: questionId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.QUESTIONS_TABLE}
