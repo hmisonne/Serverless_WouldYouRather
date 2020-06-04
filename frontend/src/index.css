@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  color: #252525;
+}
+
+a {
+  text-decoration: none;
+  color: #252525;
+}
+
+.post {
+  width: 100%;
+  max-width: 590px;
+  padding: 10px;
+  display: flex;
+  margin: 0 auto;
+  border: 1px solid #dad7d7;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.post-info {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hacky but less typing in the video */
+.post-info > div > span:first-child {
+  font-weight: bold;
+  margin-right: 5px;
+}
+.post-info > div > span:nth-child(2) {
+  color: #969696;
+  font-size: 16px;
+}
+.post-info > div > div {
+  color: #969696;
+  font-size: 15px;
+}
+.post-info > div > p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  text-decoration: none;
+}
+
+.nav li:first-child {
+  padding-left: 0;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style-type: none;
+  padding: 10px;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+  color: #252525;
+}
+
+.center {
+  text-align: center;
+}
+
+.post-icons {
+  display: flex;
+  align-items: center;
+}
+.post-icons > span {
+  color: #969696;
+  margin: 0 15px 0 5px;
+  font-size: 18px !important;
+}
+.post-icon {
+  font-size: 27px;
+  color: #697784;
+}
+.post-icon:hover {
+  color: #00b5d6;
+  cursor: pointer;
+}
+
+.new-post {
+  width: 100%;
+  max-width: 590px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea {
+  border-radius: 4px;
+  border: 1px solid #dad7d7;
+  padding: 10px;
+  font-size: 15px;
+  height: 100px;
+}
+.inputarea {
+  border-radius: 4px;
+  border: 1px solid #dad7d7;
+  padding: 10px;
+  font-size: 15px;
+  height: 10px;
+}
