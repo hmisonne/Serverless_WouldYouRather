@@ -14,11 +14,39 @@ plugins:
   - serverless-webpack
 
 provider:
+  # tracing:
+  #   lambda: true
+  #   apiGateway: true
+  # iamRoleStatements:           
+  #     - Effect: 'Allow'
+  #       Action:
+  #         - 'xray:PutTraceSegments'
+  #         - 'xray:PutTelemetryRecords'
+  #       Resource:
+  #         - '*'
   name: aws
   runtime: nodejs12.x
+  
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    QUESTIONS_TABLE: Questions-${self:provider.stage}
 
-
+functions:
+  GetQuestions:
+    handler: src/lambda/http/getQuestions.handler
+    events:
+      - http:
+          method: get
+          path: questions
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
