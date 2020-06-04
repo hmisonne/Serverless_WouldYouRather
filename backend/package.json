@@ -1,5 +1,5 @@
 {
-  "name": "readable",
+  "name": "wouldyourather_serverless",
   "version": "1.0.0",
   "description": "Serverless webpack example using Typescript",
   "main": "handler.js",
@@ -7,12 +7,29 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "source-map-support": "^0.5.10"
+    "@types/http-errors": "^1.6.1",
+    "@types/uuid": "^8.0.0",
+    "aws-xray-sdk": "^2.2.0",
+    "axios": "^0.19.0",
+    "http-errors": "^1.7.2",
+    "jsonwebtoken": "^8.5.1",
+    "middy": "^0.27.0",
+    "serverless": "^1.71.3",
+    "source-map-support": "^0.5.11",
+    "uuid": "^3.3.2",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.17",
+    "@types/jsonwebtoken": "^8.3.2",
     "@types/node": "^10.12.18",
+    "aws-sdk": "^2.433.0",
     "fork-ts-checker-webpack-plugin": "^3.0.1",
+    "serverless-aws-documentation": "^1.1.0",
+    "serverless-iam-roles-per-function": "^1.0.4",
+    "serverless-plugin-canary-deployments": "^0.4.7",
+    "serverless-plugin-tracing": "^2.0.0",
+    "serverless-reqvalidator-plugin": "^1.0.3",
     "serverless-webpack": "^5.3.2",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
