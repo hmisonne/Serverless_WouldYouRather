@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "question",
+    "type": "object",
+    "properties": {
+      "optionOneText": {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 200
+      },
+      "optionTwoText": {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 200
+      }
+    },
+    "required": [
+        "optionOneText",
+        "optionTwoText"
+      ],
+    "additionalProperties": false
+  }

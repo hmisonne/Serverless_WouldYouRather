@@ -25,6 +25,18 @@ export class QuestionAccess {
           return items as QuestionItem[]
         
     }
+
+    async createQuestion(newQuestion: QuestionItem): Promise<QuestionItem> {
+
+        await this.docClient.put({
+            TableName: this.questionTable,
+            Item: newQuestion,
+          }).promise()
+          
+
+          return newQuestion
+        
+    }
    
     
 }

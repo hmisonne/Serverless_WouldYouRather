@@ -39,6 +39,9 @@ provider:
     QUESTIONS_TABLE: Questions-${self:provider.stage}
 
 functions:
+  Auth:
+    handler: src/lambda/auth/auth0Authorizer.handler
+  
   GetQuestions:
     handler: src/lambda/http/getQuestions.handler
     events:
@@ -51,9 +54,37 @@ functions:
         Action:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
+  
+  CreateQuestion:
+    handler: src/lambda/http/createQuestion.handler
+    events:
+      - http:
+          method: put
+          path: question
+          cors: true
+          authorizer: Auth
+          request:
+            schema:
+              application/json: ${file(models/create-question-request.json)}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
 resources:
   Resources:
+    GatewayResponseDefault4XX:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: ApiGatewayRestApi
+
     QuestionsDynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:
