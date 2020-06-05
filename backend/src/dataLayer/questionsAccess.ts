@@ -27,15 +27,23 @@ export class QuestionAccess {
     }
 
     async createQuestion(newQuestion: QuestionItem): Promise<QuestionItem> {
-
         await this.docClient.put({
             TableName: this.questionTable,
             Item: newQuestion,
           }).promise()
           
 
-          return newQuestion
+        return newQuestion
         
+    }
+    async deleteQuestion(userId: string, questionId: string): Promise<void> {
+        await this.docClient.delete({
+            TableName: this.questionTable,
+            Key:{
+                userId,
+                questionId
+            },
+          }).promise()
     }
    
     

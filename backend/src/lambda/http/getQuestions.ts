@@ -6,7 +6,7 @@ import { getUserId } from '../utils'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
 
-const logger = createLogger('getTodos')
+const logger = createLogger('getQuestions')
 
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.info('Processing event: ', event)

@@ -21,3 +21,7 @@ export async function createQuestion(newQuestion: CreateQuestionRequest, userId:
         optionTwoText: newQuestion.optionTwoText
     })
 }
+
+export async function deleteQuestion(questionId: string, userId: string): Promise<void>{
+    await questionAccess.deleteQuestion(userId,questionId)
+}
