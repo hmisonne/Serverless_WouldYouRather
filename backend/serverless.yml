@@ -77,7 +77,7 @@ functions:
     events:
       - http:
           method: delete
-          path: questions/${questionId}
+          path: questions/{questionId}
           cors: true
           authorizer: Auth
     iamRoleStatements:
