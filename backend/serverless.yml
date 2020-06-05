@@ -59,8 +59,8 @@ functions:
     handler: src/lambda/http/createQuestion.handler
     events:
       - http:
-          method: put
-          path: question
+          method: post
+          path: questions
           cors: true
           authorizer: Auth
           request:
