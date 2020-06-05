@@ -11,6 +11,7 @@ import {
 import { getQuestions } from '../api/questions-api'
 import Auth from '../auth/Auth'
 import { Question } from '../types/Question'
+import { deleteQuestion} from '../api/questions-api'
 
 interface QuestionsProps {
   auth: Auth
@@ -37,6 +38,13 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
       })
     } catch (e) {
       alert(`Failed to fetch questions: ${e.message}`)
+    }
+  }
+  onQuestionDelete = async(questionId: string) => {
+    try{
+        await deleteQuestion(this.props.auth.getIdToken(), questionId)
+    } catch(e) {
+        alert('Question Deletion failed')
     }
   }
 
@@ -90,7 +98,7 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                 <Button
                   icon
                   color="red"
-                  onClick={() => this.onTodoDelete(todo.todoId)}
+                  onClick={() => this.onQuestionDelete(question.questionId)}
                 >
                   <Icon name="delete" />
                 </Button>
