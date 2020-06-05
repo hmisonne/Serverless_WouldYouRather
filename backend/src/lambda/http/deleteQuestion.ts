@@ -12,21 +12,14 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   logger.info('Processing event: ', event)
   const questionId = event.pathParameters.questionId
   const userId = getUserId(event)
-  try {
-      await deleteQuestion(questionId, userId)
+
+await deleteQuestion(questionId, userId)
 
   return {
     statusCode: 200,
     body: ''
-  }}
-  catch(e){
-    logger.info('Invalid request: ', e)
-    return {
-        statusCode: 400,
-        body: 'Failed Request'
-      }
-    }
   }
+ 
 })
 
 handler.use(
