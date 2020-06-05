@@ -6,6 +6,7 @@ import Auth from './auth/Auth'
 import { LogIn } from './components/LogIn'
 import { NotFound } from './components/NotFound'
 import { Questions } from './components/Questions'
+import { CreateQuestion } from './components/CreateQuestion'
 
 export interface AppProps {}
 
@@ -58,7 +59,9 @@ export default class App extends Component<AppProps, AppState> {
         <Menu.Item name="home">
           <Link to="/">Home</Link>
         </Menu.Item>
-
+        <Menu.Item name="new question">
+          <Link to="/questions/create">Create</Link>
+        </Menu.Item>
         <Menu.Menu position="right">{this.logInLogOutButton()}</Menu.Menu>
       </Menu>
     )
@@ -94,7 +97,13 @@ export default class App extends Component<AppProps, AppState> {
             return <Questions {...props} auth={this.props.auth} />
           }}
         />
-
+        <Route
+          path="/questions/create"
+          exact
+          render={props => {
+            return <CreateQuestion {...props} auth={this.props.auth} />
+          }}
+        />
         
 
         <Route component={NotFound} />

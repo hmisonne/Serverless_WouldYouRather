@@ -4,7 +4,9 @@ import {
   Divider,
   Grid,
   Header,
-  Loader
+  Loader,
+  Button,
+  Icon
 } from 'semantic-ui-react'
 import { getQuestions } from '../api/questions-api'
 import Auth from '../auth/Auth'
@@ -78,10 +80,21 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
               <Grid.Column width={10} verticalAlign="middle">
                 {question.optionOneText}
               </Grid.Column>
+              <Grid.Column width={10} verticalAlign="middle">
+                {question.optionTwoText}
+              </Grid.Column>
               <Grid.Column width={3} floated="right">
                 {question.timestamp}
               </Grid.Column>
-              
+              <Grid.Column width={1} floated="right">
+                <Button
+                  icon
+                  color="red"
+                  onClick={() => this.onTodoDelete(todo.todoId)}
+                >
+                  <Icon name="delete" />
+                </Button>
+              </Grid.Column>
               <Grid.Column width={16}>
                 <Divider />
               </Grid.Column>
