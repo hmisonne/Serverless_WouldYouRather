@@ -7,6 +7,7 @@ import { LogIn } from './components/LogIn'
 import { NotFound } from './components/NotFound'
 import { Questions } from './components/Questions'
 import { CreateQuestion } from './components/CreateQuestion'
+import { QuestionDetails } from './components/QuestionDetails'
 
 export interface AppProps {}
 
@@ -102,6 +103,13 @@ export default class App extends Component<AppProps, AppState> {
           exact
           render={props => {
             return <CreateQuestion {...props} auth={this.props.auth} />
+          }}
+        />
+        <Route
+          path="/questions/:questionId/poll"
+          exact
+          render={props => {
+            return <QuestionDetails {...props} auth={this.props.auth} />
           }}
         />
         
