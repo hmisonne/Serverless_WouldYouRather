@@ -4,5 +4,7 @@ export interface QuestionItem {
     timestamp: string
     optionOneText: string
     optionTwoText: string
+    optionOneVote?: string[]
+    optionTwoVote?: string[]
   }
   

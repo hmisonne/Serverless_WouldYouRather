@@ -1,7 +1,7 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { QuestionItem } from '../models/QuestionItem'
 import * as AWS from 'aws-sdk'
-
+import { VoteRequest } from '../requests/VoteRequest'
 // const AWSXRay = require('aws-xray-sdk')
 // const XAWS = AWSXRay.captureAWS(AWS)
 
@@ -46,5 +46,23 @@ export class QuestionAccess {
           }).promise()
     }
    
+    async updateQuestion(userId: string, questionId: string, newVote: VoteRequest): Promise<void> {
+        await this.docClient.update({
+            TableName: this.questionTable,
+            Key:{
+                userId,
+                questionId
+            },
+            ExpressionAttributeNames: {
+                "#optionSelected": newVote.optionSelected
+            },
+            UpdateExpression: "set #optionSelected = list_append(if_not_exists(#optionSelected, :empty_list), :respondent)",
+            ExpressionAttributeValues: {
+                ":respondent": [newVote.responderId],
+                ':empty_list': []
+            },
+            ReturnValues: "UPDATED_NEW"
+        }).promise()
+    }
     
 }

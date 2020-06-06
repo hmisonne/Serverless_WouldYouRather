@@ -86,6 +86,20 @@ functions:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
+  UpdateQuestion:
+    handler: src/lambda/http/updateQuestion.handler
+    events:
+      - http:
+          method: patch
+          path: users/{userId}/questions/{questionId}
+          cors: true
+          authorizer: Auth
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
+
 resources:
   Resources:
     GatewayResponseDefault4XX:

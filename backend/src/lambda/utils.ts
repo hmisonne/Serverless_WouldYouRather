@@ -12,5 +12,6 @@ export function getUserId(event: APIGatewayProxyEvent): string {
   const split = authorization.split(' ')
   const jwtToken = split[1]
 
-  return parseUserId(jwtToken)
+  const completeUserId = parseUserId(jwtToken)
+  return completeUserId.slice(-10)
 }
