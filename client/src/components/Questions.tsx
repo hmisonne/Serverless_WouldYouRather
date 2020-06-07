@@ -12,6 +12,7 @@ import { getQuestions } from '../api/questions-api'
 import Auth from '../auth/Auth'
 import { Question } from '../types/Question'
 import { deleteQuestion} from '../api/questions-api'
+import { Link} from 'react-router-dom'
 
 interface QuestionsProps {
   auth: Auth
@@ -47,7 +48,9 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
         alert('Question Deletion failed')
     }
   }
-
+  goToQuestionDetails = (questionId: string) => {
+      this.props.history.push(`/questions/${questionId}/poll`)
+  }
   render() {
     return (
       <div>
@@ -102,6 +105,13 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                 >
                   <Icon name="delete" />
                 </Button>
+                <Button
+                  icon
+                  color="blue"
+                  onClick={() => this.goToQuestionDetails(question.questionId)}
+                >
+                  <Icon name="pencil" />
+                </Button>
               </Grid.Column>
               <Grid.Column width={16}>
                 <Divider />
@@ -113,3 +123,4 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
     )
   }
 }
+{/*  */}
