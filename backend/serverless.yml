@@ -54,7 +54,20 @@ functions:
         Action:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
-  
+
+  GetQuestion:
+    handler: src/lambda/http/getQuestions.handler
+    events:
+      - http:
+          method: get
+          path: users/{userId}/questions/{questionId}
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
+
   CreateQuestion:
     handler: src/lambda/http/createQuestion.handler
     events:

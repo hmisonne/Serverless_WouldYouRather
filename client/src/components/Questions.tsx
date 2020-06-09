@@ -48,8 +48,9 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
         alert('Question Deletion failed')
     }
   }
-  goToQuestionDetails = (questionId: string) => {
-      this.props.history.push(`/questions/${questionId}/poll`)
+  goToQuestionDetails = (question: Question) => {
+      const {userId, questionId} = question
+      this.props.history.push(`/users/${userId}/questions/${questionId}`)
   }
   render() {
     return (
@@ -83,7 +84,7 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
   renderQuestionsList() {
     return (
       <Grid padded>
-        {this.state.questions.map((question, pos) => {
+        {this.state.questions.map((question) => {
           return (
             <Grid.Row key={question.questionId}>
               <Grid.Column width={1} verticalAlign="middle">
@@ -108,7 +109,7 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.goToQuestionDetails(question.questionId)}
+                  onClick={() => this.goToQuestionDetails(question)}
                 >
                   <Icon name="pencil" />
                 </Button>

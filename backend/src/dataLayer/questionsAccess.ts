@@ -47,7 +47,7 @@ export class QuestionAccess {
     }
    
     async updateQuestion(userId: string, questionId: string, newVote: VoteRequest): Promise<void> {
-        await this.docClient.update({
+         await this.docClient.update({
             TableName: this.questionTable,
             Key:{
                 userId,
@@ -63,6 +63,22 @@ export class QuestionAccess {
             },
             ReturnValues: "UPDATED_NEW"
         }).promise()
+
+    }
+
+    async getQuestion(userId: string, questionId: string): Promise<QuestionItem[]>{
+        const result = await this.docClient.query({
+            TableName: this.questionTable,
+            KeyConditionExpression: 'userId = :userId AND questionId = :questionId',
+            ExpressionAttributeValues: {
+                ':userId': userId,
+                ':questionId': questionId
+            }
+        }).promise()
+
+        const items = result.Items
+
+        return items as QuestionItem[]
     }
     
 }

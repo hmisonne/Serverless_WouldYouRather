@@ -106,7 +106,7 @@ export default class App extends Component<AppProps, AppState> {
           }}
         />
         <Route
-          path="/questions/:questionId/poll"
+          path="/users/:userId/questions/:questionId"
           exact
           render={props => {
             return <QuestionDetails {...props} auth={this.props.auth} />

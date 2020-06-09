@@ -30,3 +30,7 @@ export async function deleteQuestion(questionId: string, userId: string): Promis
 export async function updateQuestion(questionId: string, userId: string, newVote: VoteRequest): Promise<void>{
     questionAccess.updateQuestion(userId,questionId,newVote)
 }
+
+export async function getQuestion(userId: string, questionId: string): Promise<QuestionItem[]> {
+    return await questionAccess.getQuestion(userId,questionId)
+}

@@ -2,7 +2,7 @@ import { apiEndpoint } from '../config'
 import { Question } from '../types/Question';
 import Axios from 'axios'
 import { CreateQuestionRequest } from '../types/CreateQuestionRequest'
-
+import { SubmitVoteRequest } from '../types/SubmitVoteRequest'
 
 export async function getQuestions(idToken: string): Promise<Question[]> {
   console.log('Fetching questions')
@@ -18,37 +18,49 @@ export async function getQuestions(idToken: string): Promise<Question[]> {
 }
 
 export async function createQuestion(idToken: string, newQuestion: CreateQuestionRequest): Promise<Question> {
-    console.log('Creating question')
-  
-    const response = await Axios.post(`${apiEndpoint}/questions`, JSON.stringify(newQuestion), {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${idToken}`
-      },
-    })
-    console.log('New Question:', response.data)
-    return response.data.item
-  }
+  console.log('Creating question')
 
-  export async function deleteQuestion(idToken: string, questionId: string): Promise<void> {
-    console.log('Delete question')
-  
-    await Axios.delete(`${apiEndpoint}/questions/${questionId}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${idToken}`
-      },
-    })
-  }
+  const response = await Axios.post(`${apiEndpoint}/questions`, JSON.stringify(newQuestion), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    },
+  })
+  console.log('New Question:', response.data)
+  return response.data.item
+}
 
-  export async function getQuestion(idToken: string, questionId: string): Promise<Question> {
-    console.log('Fetching question')
+export async function deleteQuestion(idToken: string, questionId: string): Promise<void> {
+  console.log('Delete question')
 
-    const response = await Axios.get(`${apiEndpoint}/questions/${questionId}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${idToken}`
-      }
-    })
-    return response.data.item
-  }
+  await Axios.delete(`${apiEndpoint}/questions/${questionId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    },
+  })
+}
+
+export async function getQuestion(idToken: string, questionId: string): Promise<Question> {
+  console.log('Fetching question')
+
+  const response = await Axios.get(`${apiEndpoint}/questions/${questionId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    }
+  })
+  return response.data.item
+}
+
+export async function submitVote(idToken: string, vote: SubmitVoteRequest): Promise<void> {
+  console.log('Submit vote')
+  const {userId, questionId, optionSelected} = vote
+  const response = await Axios.patch(`${apiEndpoint}/users/${userId}/questions/${questionId}`, JSON.stringify(optionSelected), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    }
+  })
+
+}

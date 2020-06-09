@@ -5,7 +5,8 @@ import {
   Form,
 } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
-import { getQuestion } from '../api/questions-api'
+import { getQuestion, submitVote } from '../api/questions-api'
+import { Question } from '../types/Question'
 
 interface QuestionsProps {
   auth: Auth
@@ -13,14 +14,14 @@ interface QuestionsProps {
   match: {
     params: {
       questionId: string
+      userId: string
     }
   }
 }
 
 interface QuestionsState {
   value: string
-  optionOneText?: string
-  optionTwoText?: string
+  question?: Question
 }
 
 
@@ -32,10 +33,8 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
   async componentDidMount() {
     try {
       const question = await getQuestion(this.props.auth.getIdToken(), this.props.match.params.questionId)
-      const {optionOneText, optionTwoText} = question
       this.setState({
-        optionOneText,
-        optionTwoText
+        question
       })
     } catch (e) {
       alert(`Failed to fetch question: ${e.message}`)
@@ -43,10 +42,26 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
   }
 
   handleChange = (e: any, { value }:any) => this.setState({ value })
+  
+  onSubmit = async (e: any) =>  {
+    const {questionId, userId} = this.props.match.params
+    const vote = {
+      questionId,
+      optionSelected: this.state.value,
+      userId
+    }
+    try {
+      await submitVote(this.props.auth.getIdToken(), vote)
 
+    } catch (e) {
+      alert(`Failed to submit vote: ${e.message}`)
+    }
+  }
+    
   render() {
     const { value } = this.state
-    const {optionOneText, optionTwoText} = this.state
+    let optionOneText, optionTwoText
+    this.state.question && ({optionOneText, optionTwoText } = this.state.question)
     return (
       <div>
         <Header as="h1">Would You Rather</Header>
@@ -65,7 +80,7 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
               checked={value === 'optionTwoText'}
               onChange={this.handleChange}
               />
-              <Form.Button>Vote</Form.Button>
+              <Form.Button onClick={this.onSubmit}>Vote</Form.Button>
           </Form.Group>
         </Form>
       </div>
