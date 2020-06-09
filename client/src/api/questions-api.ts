@@ -40,3 +40,14 @@ export async function createQuestion(idToken: string, newQuestion: CreateQuestio
       },
     })
   }
+
+  export async function getQuestion(idToken: string, questionId: string): Promise<Question> {
+    console.log('Fetching question')
+
+    const response = await Axios.get(`${apiEndpoint}/questions/${questionId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${idToken}`
+      }
+    })
+  }

@@ -5,8 +5,7 @@ import {
   Form,
 } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
-import { Question } from '../types/Question'
-
+import { getQuestion } from '../api/questions-api'
 
 interface QuestionsProps {
   auth: Auth
@@ -20,17 +19,29 @@ interface QuestionsProps {
 
 interface QuestionsState {
   value: string
-  optionOneText: string
-  optionTwoText: string
+  optionOneText?: string
+  optionTwoText?: string
 }
 
 
 export class QuestionDetails extends React.PureComponent<QuestionsProps, QuestionsState> {
   state: QuestionsState = {
     value: 'optionOneText',
-    optionOneText: 'Do that',
-    optionTwoText: 'Do this'
   }
+  
+  async componentDidMount() {
+    try {
+      const question = await getQuestion(this.props.auth.getIdToken(), this.props.match.params.questionId)
+      const {optionOneText, optionTwoText} = question
+      this.setState({
+        optionOneText,
+        optionTwoText
+      })
+    } catch (e) {
+      alert(`Failed to fetch question: ${e.message}`)
+    }
+  }
+
   handleChange = (e: any, { value }:any) => this.setState({ value })
 
   render() {
