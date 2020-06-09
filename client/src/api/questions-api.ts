@@ -50,4 +50,5 @@ export async function createQuestion(idToken: string, newQuestion: CreateQuestio
         'Authorization': `Bearer ${idToken}`
       }
     })
+    return response.data.item
   }
