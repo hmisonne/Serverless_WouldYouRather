@@ -48,9 +48,8 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
         alert('Question Deletion failed')
     }
   }
-  goToQuestionDetails = (question: Question) => {
-      const {userId, questionId} = question
-      this.props.history.push(`/users/${userId}/questions/${questionId}`)
+  goToQuestionDetails = (questionId: string) => {
+      this.props.history.push(`/questions/${questionId}`)
   }
   render() {
     return (
@@ -109,7 +108,7 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.goToQuestionDetails(question)}
+                  onClick={() => this.goToQuestionDetails(question.questionId)}
                 >
                   <Icon name="pencil" />
                 </Button>

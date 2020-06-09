@@ -56,7 +56,7 @@ functions:
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
   GetQuestion:
-    handler: src/lambda/http/getQuestions.handler
+    handler: src/lambda/http/getQuestion.handler
     events:
       - http:
           method: get

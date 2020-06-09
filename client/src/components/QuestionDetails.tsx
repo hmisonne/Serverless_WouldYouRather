@@ -14,7 +14,6 @@ interface QuestionsProps {
   match: {
     params: {
       questionId: string
-      userId: string
     }
   }
 }
@@ -44,7 +43,9 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
   handleChange = (e: any, { value }:any) => this.setState({ value })
   
   onSubmit = async (e: any) =>  {
-    const {questionId, userId} = this.props.match.params
+    const {questionId} = this.props.match.params
+    let userId = ''
+    this.state.question && ({userId} = this.state.question)
     const vote = {
       questionId,
       optionSelected: this.state.value,
