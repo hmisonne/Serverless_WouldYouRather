@@ -3,6 +3,7 @@ import { History } from 'history'
 import {
   Header,
   Form,
+  Progress,
 } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
 import { getQuestion, submitVote } from '../api/questions-api'
@@ -58,15 +59,26 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
   }
     
   render() {
+
+    return (
+      <div>
+        <Header as="h1">Would You Rather</Header>
+
+        {this.renderReplyToPoll()}
+        {this.renderViewPollDetails()}
+      </div>
+    )
+  }
+
+  renderReplyToPoll() {
     const { value } = this.state
     let optionOneText, optionTwoText
     this.state.question && ({optionOneText, optionTwoText } = this.state.question)
     return (
       <div>
-        <Header as="h1">Would You Rather</Header>
         <Form>
           <Form.Group widths='equal'>
-
+  
             <Form.Radio
               label={optionOneText}
               value='optionOneVote'
@@ -85,4 +97,34 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
       </div>
     )
   }
+
+  renderViewPollDetails() {
+    let optionOneResult = 0
+    let optionTwoResult = 0
+    let optionOneText = ''
+    let optionTwoText = ''
+    this.state.question && this.state.question.optionOneVote && (
+      optionOneResult = this.state.question.optionOneVote.length
+      )
+    this.state.question && this.state.question.optionTwoVote && (
+      optionTwoResult = this.state.question.optionTwoVote.length
+      )
+    this.state.question && this.state.question.optionOneText && (
+      optionOneText = this.state.question.optionOneText
+      )
+    this.state.question && this.state.question.optionTwoText && (
+      optionTwoText = this.state.question.optionTwoText
+      )
+    
+
+    const totalVotes = optionOneResult + optionTwoResult
+    return(
+      <div>
+        <Progress value={optionOneResult} total={totalVotes} progress='percent' label={optionOneText}/>
+        <Progress value={optionTwoResult} total={totalVotes} progress='percent' label={optionTwoText}/>
+			</div>
+
+    )
+  }
 }
+
