@@ -1,14 +1,19 @@
+if: branch = master
+
 language: node_js
 node_js:
   - "8.10"
-
 
 cache:
   directories:
     - backend/node_modules
 
-script:
-  - npm install -g serverless
-  - cd backend
-  - npm install
-  - serverless deploy -v
+deploy:
+  provider: script
+  script:
+    - npm install -g serverless
+    - cd backend
+    - npm install
+    - serverless deploy -v
+  on:
+    branch: master
