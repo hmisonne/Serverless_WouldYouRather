@@ -1,4 +1,5 @@
 import * as React from 'react'
+import dateFormat from 'dateformat'
 import { History } from 'history'
 import {
   Divider,
@@ -13,7 +14,6 @@ import { getQuestions } from '../api/questions-api'
 import Auth from '../auth/Auth'
 import { Question } from '../types/Question'
 import { deleteQuestion} from '../api/questions-api'
-import { Link} from 'react-router-dom'
 
 interface QuestionsProps {
   auth: Auth
@@ -102,13 +102,13 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
               <Grid.Column width={1} verticalAlign="middle">
               </Grid.Column>
               <Grid.Column width={10} verticalAlign="middle">
-                {question.optionOneText}
+                {question.optionOneText} or {question.optionTwoText}
               </Grid.Column>
               <Grid.Column width={10} verticalAlign="middle">
-                {question.optionTwoText}
+                {question.optionOneText} or {question.optionTwoText}
               </Grid.Column>
               <Grid.Column width={3} floated="right">
-                {question.timestamp}
+                {question.timestamp.slice(0,10)}
               </Grid.Column>
               <Grid.Column width={1} floated="right">
                 <Button
@@ -123,7 +123,7 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                   color="blue"
                   onClick={() => this.goToQuestionDetails(question)}
                 >
-                  <Icon name="edit" />
+                  <Icon name="check square" />
                 </Button>
                 <Button
                   icon
@@ -147,3 +147,4 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
   }
 }
 {/*  */}
+
