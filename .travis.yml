@@ -2,20 +2,13 @@ language: node_js
 node_js:
   - "8.10"
 
-deploy_service_job:
-  cache:
-    directories:
-      - node_modules
-      - backend/node_modules
 
-  install:
-    - npm install -g serverless
-    - travis_retry npm install
-    - cd backend
-    - travis_retry npm install
-    - cd -
+cache:
+  directories:
+    - backend/node_modules
 
-  script:
-    - cd $backend
-    - serverless deploy -v
-    - cd -
+script:
+  - npm install -g serverless
+  - cd backend
+  - npm install
+  - serverless deploy -v
