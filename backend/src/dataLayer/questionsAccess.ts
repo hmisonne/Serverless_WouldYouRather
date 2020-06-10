@@ -81,7 +81,7 @@ export class QuestionAccess {
     }
 
     async updateQuestionUrl(updateQuestion: any): Promise<void>{
-        this.docClient.update({
+        await this.docClient.update({
             TableName: this.questionTable,
             Key: {
                 userId: updateQuestion.userId,
@@ -95,7 +95,7 @@ export class QuestionAccess {
                 ":attachmentUrl": updateQuestion.attachmentUrl
             },
             ReturnValues: "UPDATED_NEW"
-        })
+        }).promise()
     }
     
 }
