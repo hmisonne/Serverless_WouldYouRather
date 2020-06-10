@@ -3,14 +3,7 @@ import Auth from '../auth/Auth'
 import { createQuestion } from '../api/questions-api'
 import {
     Button,
-    Checkbox,
-    Divider,
-    Grid,
     Header,
-    Icon,
-    Input,
-    Image,
-    Loader,
     Form
   } from 'semantic-ui-react'
 
