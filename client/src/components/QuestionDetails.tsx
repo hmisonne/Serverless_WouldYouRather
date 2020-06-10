@@ -14,6 +14,7 @@ interface QuestionsProps {
   match: {
     params: {
       questionId: string
+      userId: string
     }
   }
 }
@@ -26,12 +27,13 @@ interface QuestionsState {
 
 export class QuestionDetails extends React.PureComponent<QuestionsProps, QuestionsState> {
   state: QuestionsState = {
-    value: 'optionOneText',
+    value: 'optionOneVote',
   }
   
   async componentDidMount() {
+    const {questionId, userId} = this.props.match.params
     try {
-      const question = await getQuestion(this.props.auth.getIdToken(), this.props.match.params.questionId)
+      const question = await getQuestion(this.props.auth.getIdToken(), userId, questionId)
       this.setState({
         question
       })
@@ -43,17 +45,13 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
   handleChange = (e: any, { value }:any) => this.setState({ value })
   
   onSubmit = async (e: any) =>  {
-    const {questionId} = this.props.match.params
-    let userId = ''
-    this.state.question && ({userId} = this.state.question)
+    const {questionId, userId} = this.props.match.params
     const vote = {
-      questionId,
+      responderId: userId,
       optionSelected: this.state.value,
-      userId
     }
     try {
-      await submitVote(this.props.auth.getIdToken(), vote)
-
+      await submitVote(this.props.auth.getIdToken(),userId, questionId, vote)
     } catch (e) {
       alert(`Failed to submit vote: ${e.message}`)
     }
@@ -71,14 +69,14 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
 
             <Form.Radio
               label={optionOneText}
-              value='optionOneText'
-              checked={value === 'optionOneText'}
+              value='optionOneVote'
+              checked={value === 'optionOneVote'}
               onChange={this.handleChange}
               />
               <Form.Radio
               label={optionTwoText}
-              value='optionTwoText'
-              checked={value === 'optionTwoText'}
+              value='optionTwoVote'
+              checked={value === 'optionTwoVote'}
               onChange={this.handleChange}
               />
               <Form.Button onClick={this.onSubmit}>Vote</Form.Button>

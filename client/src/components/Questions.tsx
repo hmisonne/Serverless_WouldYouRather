@@ -44,12 +44,16 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
   onQuestionDelete = async(questionId: string) => {
     try{
         await deleteQuestion(this.props.auth.getIdToken(), questionId)
+        this.setState({
+          questions: this.state.questions.filter(question => question.questionId !== questionId
+            )})
     } catch(e) {
         alert('Question Deletion failed')
     }
   }
-  goToQuestionDetails = (questionId: string) => {
-      this.props.history.push(`/questions/${questionId}`)
+  goToQuestionDetails = (question: Question) => {
+      const {userId, questionId} = question
+      this.props.history.push(`/users/${userId}/questions/${questionId}`)
   }
   render() {
     return (
@@ -108,7 +112,7 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.goToQuestionDetails(question.questionId)}
+                  onClick={() => this.goToQuestionDetails(question)}
                 >
                   <Icon name="pencil" />
                 </Button>

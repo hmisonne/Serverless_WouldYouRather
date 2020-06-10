@@ -1,5 +1,4 @@
 export interface SubmitVoteRequest {
-    questionId: string
-    userId: string
+    responderId: string
     optionSelected: string
 }

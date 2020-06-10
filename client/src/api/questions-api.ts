@@ -41,10 +41,10 @@ export async function deleteQuestion(idToken: string, questionId: string): Promi
   })
 }
 
-export async function getQuestion(idToken: string, questionId: string): Promise<Question> {
+export async function getQuestion(idToken: string, userId: string, questionId: string): Promise<Question> {
   console.log('Fetching question')
 
-  const response = await Axios.get(`${apiEndpoint}/questions/${questionId}`, {
+  const response = await Axios.get(`${apiEndpoint}/users/${userId}/questions/${questionId}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
@@ -53,10 +53,12 @@ export async function getQuestion(idToken: string, questionId: string): Promise<
   return response.data.item
 }
 
-export async function submitVote(idToken: string, vote: SubmitVoteRequest): Promise<void> {
+export async function submitVote(idToken: string, userId: string, questionId: string, vote: SubmitVoteRequest): Promise<void> {
   console.log('Submit vote')
-  const {userId, questionId, optionSelected} = vote
-  const response = await Axios.patch(`${apiEndpoint}/users/${userId}/questions/${questionId}`, JSON.stringify(optionSelected), {
+
+  await Axios.patch(
+    `${apiEndpoint}/users/${userId}/questions/${questionId}`, 
+    JSON.stringify(vote), {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
