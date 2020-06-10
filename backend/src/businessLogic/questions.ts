@@ -27,11 +27,19 @@ export async function deleteQuestion(questionId: string, userId: string): Promis
     await questionAccess.deleteQuestion(userId,questionId)
 }
 
-export async function updateQuestion(questionId: string, userId: string, newVote: VoteRequest): Promise<void>{
+export async function updateQuestionVote(questionId: string, userId: string, newVote: VoteRequest): Promise<void>{
     const {optionSelected, responderId} = newVote
-    questionAccess.updateQuestion(userId,questionId, optionSelected, responderId)
+    questionAccess.updateQuestionVote(userId,questionId, optionSelected, responderId)
 }
 
 export async function getQuestion(userId: string, questionId: string): Promise<QuestionItem[]> {
     return await questionAccess.getQuestion(userId,questionId)
+}
+
+export async function updateQuestionUrl(updatedQuestion, userId: string, questionId: string) {
+    questionAccess.updateQuestionUrl({
+        userId, 
+        questionId, 
+        attachmentUrl: updatedQuestion.attachmentUrl,
+    })
 }

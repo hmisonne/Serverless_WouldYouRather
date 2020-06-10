@@ -6,5 +6,6 @@ export interface QuestionItem {
     optionTwoText: string
     optionOneVote?: string[]
     optionTwoVote?: string[]
+    attachmentUrl?: string
   }
   

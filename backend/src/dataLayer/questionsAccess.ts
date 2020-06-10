@@ -1,7 +1,6 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { QuestionItem } from '../models/QuestionItem'
 import * as AWS from 'aws-sdk'
-import { VoteRequest } from '../requests/VoteRequest'
 // const AWSXRay = require('aws-xray-sdk')
 // const XAWS = AWSXRay.captureAWS(AWS)
 
@@ -46,7 +45,7 @@ export class QuestionAccess {
           }).promise()
     }
    
-    async updateQuestion(userId: string, questionId: string, optionSelected: string, responderId: string): Promise<void> {
+    async updateQuestionVote(userId: string, questionId: string, optionSelected: string, responderId: string): Promise<void> {
          await this.docClient.update({
             TableName: this.questionTable,
             Key:{
@@ -79,6 +78,24 @@ export class QuestionAccess {
         const items = result.Items
 
         return items as QuestionItem[]
+    }
+
+    async updateQuestionUrl(updateQuestion: any): Promise<void>{
+        this.docClient.update({
+            TableName: this.questionTable,
+            Key: {
+                userId: updateQuestion.userId,
+                questionId: updateQuestion.questionId
+            },
+            ExpressionAttributeNames: {
+                "#attachmentUrl": "attachmentUrl"
+            },
+            UpdateExpression: "set #attachmentUrl = :attachmentUrl",
+            ExpressionAttributeValues: {
+                ":attachmentUrl": updateQuestion.attachmentUrl
+            },
+            ReturnValues: "UPDATED_NEW"
+        })
     }
     
 }
