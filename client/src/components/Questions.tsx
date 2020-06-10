@@ -6,7 +6,8 @@ import {
   Header,
   Loader,
   Button,
-  Icon
+  Icon,
+  Image
 } from 'semantic-ui-react'
 import { getQuestions } from '../api/questions-api'
 import Auth from '../auth/Auth'
@@ -53,7 +54,7 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
     }
   
   }
-  
+
   goToQuestionDetails = (question: Question) => {
       const {userId, questionId} = question
       this.props.history.push(`/users/${userId}/questions/${questionId}`)
@@ -132,6 +133,9 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                   <Icon name="pencil" />
                 </Button>
               </Grid.Column>
+              {question.attachmentUrl && (
+                <Image src= {question.attachmentUrl} size="small" wrapped/>
+              )}
               <Grid.Column width={16}>
                 <Divider />
               </Grid.Column>
