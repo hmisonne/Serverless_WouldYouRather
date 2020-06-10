@@ -8,12 +8,12 @@ cache:
   directories:
     - backend/node_modules
 
-deploy:
-  provider: script
-  script:
-    - npm install -g serverless
-    - cd backend
-    - npm install
-    - serverless deploy -v
-  on:
-    branch: master
+script:
+  - npm install -g serverless
+  - cd backend
+  - npm install
+  - serverless deploy -v
+  
+branches:
+  only:
+  - master
