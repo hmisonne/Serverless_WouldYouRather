@@ -101,7 +101,7 @@ functions:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
-  UpdateQuestionWithVote:
+  UpdateQuestion:
     handler: src/lambda/http/updateQuestion.handler
     events:
       - http:
