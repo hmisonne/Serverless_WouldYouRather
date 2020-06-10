@@ -66,3 +66,20 @@ export async function submitVote(idToken: string, userId: string, questionId: st
   })
 
 }
+
+export async function getUploadUrl(
+  idToken: string,
+  questionId: string
+): Promise<string> {
+  const response = await Axios.post(`${apiEndpoint}/questions/${questionId}/attachment`, '', {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    }
+  })
+  return response.data.uploadUrl
+}
+
+export async function uploadFile(uploadUrl: string, file: Buffer): Promise<void> {
+  await Axios.put(uploadUrl, file)
+}

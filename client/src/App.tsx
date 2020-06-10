@@ -8,6 +8,7 @@ import { NotFound } from './components/NotFound'
 import { Questions } from './components/Questions'
 import { CreateQuestion } from './components/CreateQuestion'
 import { QuestionDetails } from './components/QuestionDetails'
+import { UploadImage } from './components/UploadImage'
 
 export interface AppProps {}
 
@@ -110,6 +111,13 @@ export default class App extends Component<AppProps, AppState> {
           exact
           render={props => {
             return <QuestionDetails {...props} auth={this.props.auth} />
+          }}
+        />
+        <Route
+          path="/questions/:questionId/edit"
+          exact
+          render={props => {
+            return <UploadImage {...props} auth={this.props.auth} />
           }}
         />
         

@@ -41,6 +41,7 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
       alert(`Failed to fetch questions: ${e.message}`)
     }
   }
+
   onQuestionDelete = async(questionId: string) => {
     try{
         await deleteQuestion(this.props.auth.getIdToken(), questionId)
@@ -50,11 +51,18 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
     } catch(e) {
         alert('Question Deletion failed')
     }
+  
   }
+  
   goToQuestionDetails = (question: Question) => {
       const {userId, questionId} = question
       this.props.history.push(`/users/${userId}/questions/${questionId}`)
   }
+
+  goToUploadImage = (questionId: string) => {
+    this.props.history.push(`/questions/${questionId}/edit`)
+  }
+
   render() {
     return (
       <div>
@@ -113,6 +121,13 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                   icon
                   color="blue"
                   onClick={() => this.goToQuestionDetails(question)}
+                >
+                  <Icon name="edit" />
+                </Button>
+                <Button
+                  icon
+                  color="blue"
+                  onClick={() => this.goToUploadImage(question.questionId)}
                 >
                   <Icon name="pencil" />
                 </Button>
