@@ -28,7 +28,8 @@ export async function deleteQuestion(questionId: string, userId: string): Promis
 }
 
 export async function updateQuestion(questionId: string, userId: string, newVote: VoteRequest): Promise<void>{
-    questionAccess.updateQuestion(userId,questionId,newVote)
+    const {optionSelected, responderId} = newVote
+    questionAccess.updateQuestion(userId,questionId, optionSelected, responderId)
 }
 
 export async function getQuestion(userId: string, questionId: string): Promise<QuestionItem[]> {
