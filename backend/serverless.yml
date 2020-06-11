@@ -133,8 +133,8 @@ functions:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
-  UpdateQuestion:
-    handler: src/lambda/http/updateQuestion.handler
+  submitVote:
+    handler: src/lambda/http/submitVote.handler
     events:
       - http:
           method: patch
@@ -146,7 +146,11 @@ functions:
         Action:
           - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
-  
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
     events:

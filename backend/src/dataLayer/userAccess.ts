@@ -27,5 +27,24 @@ export class UserAccess {
         const items = response.Items
         return items as UserInfo[]
     }
-    
+
+    async updateUserVote(userId: string, questionId: string, optionSelected: string ): Promise<void> {
+        await this.docClient.update({
+            TableName: this.userTable,
+            Key:{
+                userId,
+            },
+            ExpressionAttributeNames: {
+                "#answers": "answers",
+                "#questionId": questionId
+            },
+            UpdateExpression: "set #answers.#questionId = :optionSelected",
+            ExpressionAttributeValues: {
+                ":userId": userId,
+                ':optionSelected': optionSelected
+            },
+            ReturnValues: "UPDATED_NEW"
+          }).promise()
+        
+    }
 }
