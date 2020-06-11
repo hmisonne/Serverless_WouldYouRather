@@ -40,7 +40,6 @@ export class UserAccess {
             },
             UpdateExpression: "set #answers.#questionId = :optionSelected",
             ExpressionAttributeValues: {
-                ":userId": userId,
                 ':optionSelected': optionSelected
             },
             ReturnValues: "UPDATED_NEW"
