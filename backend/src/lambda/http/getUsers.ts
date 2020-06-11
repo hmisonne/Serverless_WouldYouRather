@@ -1,22 +1,21 @@
 import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
-import { createUser } from '../../businessLogic/users'
-import { CreateUserRequest } from '../../requests/CreateUserRequest'
+import { getAllUsers } from '../../businessLogic/users'
 import { createLogger } from '../../utils/logger'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
 
-const logger = createLogger('createQuestion')
+const logger = createLogger('getUsers')
 
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.info('Processing event: ', event)
-  const newUser: CreateUserRequest = JSON.parse(event.body) 
-  const items = await createUser(newUser)
+  
+  const users = await getAllUsers()
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-      items
+        users
     })
   }
 })

@@ -20,5 +20,12 @@ export class UserAccess {
         
     }
     
+    async getAllUsers(): Promise<UserInfo[]> {
+        const response = await this.docClient.scan({
+            TableName: this.userTable
+        }).promise()
+        const items = response.Items
+        return items as UserInfo[]
+    }
     
 }

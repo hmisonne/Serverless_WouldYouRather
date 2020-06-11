@@ -88,6 +88,37 @@ functions:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
+  CreateUser:
+    handler: src/lambda/http/createUser.handler
+    events:
+      - http:
+          method: post
+          path: users
+          cors: true
+          authorizer: Auth
+          request:
+            schema:
+              application/json: ${file(models/create-user-request.json)}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+
+  GetUsers:
+    handler: src/lambda/http/getUsers.handler
+    events:
+      - http:
+          method: get
+          path: users
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+
+
   DeleteQuestion:
     handler: src/lambda/http/deleteQuestion.handler
     events:
