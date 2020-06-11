@@ -38,6 +38,7 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     QUESTIONS_TABLE: Questions-${self:provider.stage}
     RESPONSES_TABLE: Answers-${self:provider.stage}
+    USERS_TABLE: Users-${self:provider.stage}
     ATTACHEMENTS_S3_BUCKET: serverless-wyr-files-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
@@ -101,7 +102,6 @@ functions:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RESPONSES_TABLE}
 
-
   DeleteQuestion:
     handler: src/lambda/http/deleteQuestion.handler
     events:
@@ -133,6 +133,10 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RESPONSES_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
@@ -182,6 +186,18 @@ resources:
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.QUESTIONS_TABLE}
+    
+    UsersDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.USERS_TABLE}
     
     ResponseDynamoDBTable:
       Type: AWS::DynamoDB::Table

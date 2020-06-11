@@ -7,7 +7,7 @@ import { createLogger } from '../../utils/logger'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
 import { getUserId } from '../utils'
-
+import { updateUserVote } from '../../businessLogic/users'
 const logger = createLogger('updateQuestion')
 
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -18,6 +18,7 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   const newVote: VoteRequest = JSON.parse(event.body) 
   await updateQuestionVote(creatorId, questionId, userId, newVote)
   await createResponse(questionId, userId, newVote)
+  await updateUserVote(questionId, userId, newVote)
   
   return {
     statusCode: 200,
