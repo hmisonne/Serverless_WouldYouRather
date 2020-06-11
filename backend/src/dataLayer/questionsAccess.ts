@@ -9,14 +9,10 @@ export class QuestionAccess {
         private readonly docClient: DocumentClient = new AWS.DynamoDB.DocumentClient(),
         private readonly questionTable = process.env.QUESTIONS_TABLE){}
 
-    async getAllQuestions(userId: string): Promise<QuestionItem[]> {
+    async getAllQuestions(): Promise<QuestionItem[]> {
 
-        const result = await this.docClient.query({
-            TableName: this.questionTable,
-            KeyConditionExpression: 'userId = :userId',
-            ExpressionAttributeValues: {
-                ':userId': userId
-            }
+        const result = await this.docClient.scan({
+            TableName: this.questionTable
           }).promise()
           
           const items = result.Items

@@ -7,8 +7,8 @@ import { VoteRequest } from '../requests/VoteRequest'
 
 const questionAccess = new QuestionAccess()
 
-export async function getAllQuestions(userId: string): Promise<QuestionItem[]>{
-    return questionAccess.getAllQuestions(userId)
+export async function getAllQuestions(): Promise<QuestionItem[]>{
+    return questionAccess.getAllQuestions()
 }
 
 export async function createQuestion(newQuestion: CreateQuestionRequest, userId: string): Promise<QuestionItem>{
