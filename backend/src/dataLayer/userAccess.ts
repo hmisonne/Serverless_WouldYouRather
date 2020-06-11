@@ -38,8 +38,9 @@ export class UserAccess {
                 "#answers": "answers",
                 "#questionId": questionId
             },
-            UpdateExpression: "set #answers.#questionId = :optionSelected",
+            UpdateExpression: "set #answers.#questionId = if_not_exists(#answers, :empty_object), if_not_exists(#answers.#questionId, :empty_object), :optionSelected",
             ExpressionAttributeValues: {
+                ':empty_object': {},
                 ':optionSelected': optionSelected
             },
             ReturnValues: "UPDATED_NEW"
