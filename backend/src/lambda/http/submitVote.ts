@@ -1,7 +1,7 @@
 import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { updateQuestionVote } from '../../businessLogic/questions'
-import { createResponse } from '../../businessLogic/responses'
+// import { createResponse } from '../../businessLogic/responses'
 import { VoteRequest } from '../../requests/VoteRequest'
 import { createLogger } from '../../utils/logger'
 import * as middy from 'middy'
