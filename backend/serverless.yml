@@ -133,7 +133,7 @@ functions:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
-  SubmitVote:
+  submitVote:
     handler: src/lambda/http/submitVote.handler
     events:
       - http:
