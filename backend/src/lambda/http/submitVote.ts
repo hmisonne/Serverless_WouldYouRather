@@ -15,7 +15,7 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   const userId = event.pathParameters.userId
   const newVote: VoteRequest = JSON.parse(event.body) 
   await updateQuestionVote(questionId, userId, newVote)
-  await createResponse(questionId, newVote)
+  await createResponse(questionId,userId, newVote)
   
   return {
     statusCode: 200,

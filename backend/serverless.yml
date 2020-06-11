@@ -88,23 +88,6 @@ functions:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
-  CreateResponse:
-    handler: src/lambda/http/createResponse.handler
-    events:
-      - http:
-          method: post
-          path: responses
-          cors: true
-          authorizer: Auth
-          request:
-            schema:
-              application/json: ${file(models/create-response-request.json)}
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:PutItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RESPONSES_TABLE}
-
   GetResponses:
     handler: src/lambda/http/getResponses.handler
     events:
@@ -204,14 +187,14 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
-          - AttributeName: questionId
+          - AttributeName: userId
             AttributeType: S
-          - AttributeName: responderId
+          - AttributeName: questionId
             AttributeType: S
         KeySchema:
-          - AttributeName: questionId
+          - AttributeName: userId
             KeyType: HASH
-          - AttributeName: responderId
+          - AttributeName: questionId
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.RESPONSES_TABLE}

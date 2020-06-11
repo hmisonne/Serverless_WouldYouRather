@@ -1,6 +1,6 @@
 export interface ResponseItem {
-  questionId: string
-  responderId: string  
+  userId: string 
+  questionId: string 
   optionSelected: string
 }
   

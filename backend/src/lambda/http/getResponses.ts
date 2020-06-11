@@ -4,18 +4,19 @@ import { getAllResponses } from '../../businessLogic/responses'
 import { createLogger } from '../../utils/logger'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
+import { getUserId } from '../utils'
 
-const logger = createLogger('getUsers')
+const logger = createLogger('getReponses')
 
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.info('Processing event: ', event)
-  const questionId = event.pathParameters.questionId
-  const users = await getAllResponses(questionId)
+  const userId = getUserId(event)
+  const items = await getAllResponses(userId)
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-        users
+      items
     })
   }
 })
