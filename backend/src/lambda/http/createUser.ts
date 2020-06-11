@@ -11,12 +11,12 @@ const logger = createLogger('createQuestion')
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.info('Processing event: ', event)
   const newUser: CreateUserRequest = JSON.parse(event.body) 
-  const items = await createUser(newUser)
+  const users = await createUser(newUser)
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-      items
+        users
     })
   }
 })
