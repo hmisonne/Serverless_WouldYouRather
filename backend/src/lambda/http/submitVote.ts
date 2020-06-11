@@ -6,16 +6,18 @@ import { VoteRequest } from '../../requests/VoteRequest'
 import { createLogger } from '../../utils/logger'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
+import { getUserId } from '../utils'
 
 const logger = createLogger('updateQuestion')
 
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.info('Processing event: ', event)
   const questionId = event.pathParameters.questionId
-  const userId = event.pathParameters.userId
+  const creatorId = event.pathParameters.userId
+  const userId = getUserId(event)
   const newVote: VoteRequest = JSON.parse(event.body) 
-  await updateQuestionVote(questionId, userId, newVote)
-  await createResponse(questionId,userId, newVote)
+  await updateQuestionVote(creatorId, questionId, userId, newVote)
+  await createResponse(questionId, userId, newVote)
   
   return {
     statusCode: 200,

@@ -1,6 +1,6 @@
 import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
-import { getAllResponses } from '../../businessLogic/responses'
+import { getResponsesPerUser } from '../../businessLogic/responses'
 import { createLogger } from '../../utils/logger'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
@@ -11,7 +11,7 @@ const logger = createLogger('getReponses')
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.info('Processing event: ', event)
   const userId = getUserId(event)
-  const items = await getAllResponses(userId)
+  const items = await getResponsesPerUser(userId)
 
   return {
     statusCode: 200,

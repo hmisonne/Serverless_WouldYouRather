@@ -20,7 +20,7 @@ export class ResponseAccess {
         
     }
     
-    async getAllResponses(userId: string): Promise<ResponseItem[]> {
+    async getResponsesPerUser(userId: string): Promise<ResponseItem[]> {
         const response = await this.docClient.query({
             TableName: this.responseTable,
             KeyConditionExpression: 'userId = :userId',

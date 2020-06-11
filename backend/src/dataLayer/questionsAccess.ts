@@ -40,12 +40,12 @@ export class QuestionAccess {
             },
           }).promise()
     }
-   
-    async updateQuestionVote(userId: string, questionId: string, optionSelected: string, responderId: string): Promise<void> {
+
+    async updateQuestionVote(creatorId: string, userId: string, questionId: string, optionSelected: string): Promise<void> {
          await this.docClient.update({
             TableName: this.questionTable,
             Key:{
-                userId,
+                userId: creatorId,
                 questionId
             },
             ExpressionAttributeNames: {
@@ -53,7 +53,7 @@ export class QuestionAccess {
             },
             UpdateExpression: "set #optionSelected = list_append(if_not_exists(#optionSelected, :empty_list), :respondent)",
             ExpressionAttributeValues: {
-                ":respondent": [responderId],
+                ":respondent": [userId],
                 ':empty_list': []
             },
             ReturnValues: "UPDATED_NEW"
