@@ -37,7 +37,7 @@ provider:
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     QUESTIONS_TABLE: Questions-${self:provider.stage}
-    USERS_TABLE: Users-${self:provider.stage}
+    RESPONSES_TABLE: Responses-${self:provider.stage}
     ATTACHEMENTS_S3_BUCKET: serverless-wyr-files-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
@@ -88,35 +88,35 @@ functions:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
-  CreateUser:
-    handler: src/lambda/http/createUser.handler
+  CreateResponse:
+    handler: src/lambda/http/createResponse.handler
     events:
       - http:
           method: post
-          path: users
+          path: responses
           cors: true
           authorizer: Auth
           request:
             schema:
-              application/json: ${file(models/create-user-request.json)}
+              application/json: ${file(models/create-response-request.json)}
     iamRoleStatements:
       - Effect: Allow
         Action:
           - dynamodb:PutItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RESPONSES_TABLE}
 
-  GetUsers:
-    handler: src/lambda/http/getUsers.handler
+  GetResponses:
+    handler: src/lambda/http/getResponses.handler
     events:
       - http:
           method: get
-          path: users
+          path: responses
           cors: true
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - dynamodb:Scan
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RESPONSES_TABLE}
 
 
   DeleteQuestion:
@@ -133,7 +133,7 @@ functions:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
-  submitVote:
+  SubmitVote:
     handler: src/lambda/http/submitVote.handler
     events:
       - http:
@@ -148,8 +148,8 @@ functions:
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
       - Effect: Allow
         Action:
-          - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RESPONSES_TABLE}
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
@@ -200,17 +200,21 @@ resources:
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.QUESTIONS_TABLE}
     
-    UsersDynamoDBTable:
+    ResponseDynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
-          - AttributeName: userId
+          - AttributeName: questionId
+            AttributeType: S
+          - AttributeName: responderId
             AttributeType: S
         KeySchema:
-          - AttributeName: userId
+          - AttributeName: questionId
             KeyType: HASH
+          - AttributeName: responderId
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
-        TableName: ${self:provider.environment.USERS_TABLE}
+        TableName: ${self:provider.environment.RESPONSE_TABLE}
 
     AttachmentsBucket:
       Type: AWS::S3::Bucket

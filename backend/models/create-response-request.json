@@ -1,22 +1,28 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "user",
+    "title": "response",
     "type": "object",
     "properties": {
-      "userId": {
+      "responderId": {
         "type": "string",
         "minLength": 5,
         "maxLength": 200
       },
-      "name": {
+      "optionSelected": {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 200
+      },
+      "questionId": {
         "type": "string",
         "minLength": 5,
         "maxLength": 200
       }
     },
     "required": [
-        "userId",
-        "name"
+        "responderId",
+        "questionId",
+        "optionSelected"
       ],
     "additionalProperties": false
   }
