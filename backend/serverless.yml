@@ -72,12 +72,12 @@ functions:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
-  GetResponses:
+  GetUser:
     handler: src/lambda/http/getResponsesByUser.handler
     events:
       - http:
           method: get
-          path: responses
+          path: users
           cors: true
     iamRoleStatements:
       - Effect: Allow
