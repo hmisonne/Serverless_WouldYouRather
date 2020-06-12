@@ -55,7 +55,7 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
     }
     try {
       await submitVote(this.props.auth.getIdToken(),userId, questionId, vote)
-      this.setState({currResponse: vote.optionSelected})
+      this.props.history.push(`/`)
     } catch (e) {
       alert(`Failed to submit vote: ${e.message}`)
     }

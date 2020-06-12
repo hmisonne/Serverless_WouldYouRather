@@ -22,6 +22,7 @@ interface QuestionsProps {
 }
 
 interface QuestionsState {
+  showUnanswered: boolean
   questions: Question[]
   answers: any
   loadingQuestions: boolean
@@ -29,6 +30,7 @@ interface QuestionsState {
 
 export class Questions extends React.PureComponent<QuestionsProps, QuestionsState> {
   state: QuestionsState = {
+    showUnanswered: true,
     questions: [],
     answers: {},
     loadingQuestions: true
@@ -68,7 +70,12 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
   goToUploadImage = (questionId: string) => {
     this.props.history.push(`/questions/${questionId}/edit`)
   }
-
+  toggleShowAnswers = () => {
+    this.setState((prevState) => ({
+      showUnanswered: !prevState.showUnanswered
+    }))
+    console.log(this.state)
+  }
   render() {
     return (
       <div>
@@ -99,11 +106,25 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
   }
 
   renderQuestionsList() {
-    const {questions, answers} = this.state
+    const {questions, answers, showUnanswered} = this.state
     return (
       <Grid padded>
+      <Button.Group>
+        <Button 
+          disabled ={showUnanswered} 
+          onClick={() => this.toggleShowAnswers()}>
+          UnAnswered
+        </Button>
+        <Button 
+          disabled ={!showUnanswered}
+          onClick={() => this.toggleShowAnswers()}>
+            Answered
+        </Button>
+      </Button.Group>
+      
         {questions.map((question) => {
-          return (
+          if ((answers[question.questionId] && !showUnanswered) || (!answers[question.questionId] && showUnanswered)){
+             return (
             <Grid.Row key={question.questionId}>
               <Grid.Column width={1} verticalAlign="middle">
               </Grid.Column>
@@ -144,6 +165,8 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
               </Grid.Column>
             </Grid.Row>
           )
+          }
+         
         })}
       </Grid>
     )
