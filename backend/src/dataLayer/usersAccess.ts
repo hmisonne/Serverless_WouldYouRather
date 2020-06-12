@@ -21,8 +21,7 @@ export class UsersAccess {
         },
         UpdateExpression: "set #answers = if_not_exists(#answers.#questionId, :newVote)",
         ExpressionAttributeValues: {
-            ":questionId": questionId,
-            ":newVote": {":questionId": optionSelected},
+            ":newVote": {"#questionId": optionSelected},
         },
         ReturnValues: "UPDATED_NEW"
     }).promise()
