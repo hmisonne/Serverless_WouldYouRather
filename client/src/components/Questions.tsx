@@ -11,6 +11,7 @@ import {
   Image
 } from 'semantic-ui-react'
 import { getQuestions } from '../api/questions-api'
+import { getAnswersByUser } from '../api/users-api'
 import Auth from '../auth/Auth'
 import { Question } from '../types/Question'
 import { deleteQuestion} from '../api/questions-api'
@@ -22,20 +23,24 @@ interface QuestionsProps {
 
 interface QuestionsState {
   questions: Question[]
+  answers: any
   loadingQuestions: boolean
 }
 
 export class Questions extends React.PureComponent<QuestionsProps, QuestionsState> {
   state: QuestionsState = {
     questions: [],
+    answers: {},
     loadingQuestions: true
   }
 
   async componentDidMount() {
     try {
       const questions = await getQuestions(this.props.auth.getIdToken())
+      const result = await getAnswersByUser(this.props.auth.getIdToken())
       this.setState({
         questions,
+        answers: result[0].answers,
         loadingQuestions: false
       })
     } catch (e) {
@@ -55,9 +60,9 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
   
   }
 
-  goToQuestionDetails = (question: Question) => {
+  goToQuestionDetails = (question: Question, currResponse: any) => {
       const {userId, questionId} = question
-      this.props.history.push(`/users/${userId}/questions/${questionId}`)
+      this.props.history.push(`/users/${userId}/questions/${questionId}`, {currResponse})
   }
 
   goToUploadImage = (questionId: string) => {
@@ -94,21 +99,19 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
   }
 
   renderQuestionsList() {
+    const {questions, answers} = this.state
     return (
       <Grid padded>
-        {this.state.questions.map((question) => {
+        {questions.map((question) => {
           return (
             <Grid.Row key={question.questionId}>
               <Grid.Column width={1} verticalAlign="middle">
               </Grid.Column>
               <Grid.Column width={10} verticalAlign="middle">
-                {question.optionOneText} or {question.optionTwoText}
+                {question.optionOneText} or {question.optionTwoText} ?
               </Grid.Column>
               <Grid.Column width={10} verticalAlign="middle">
-                {question.optionOneText} or {question.optionTwoText}
-              </Grid.Column>
-              <Grid.Column width={3} floated="right">
-                {question.timestamp.slice(0,10)}
+                {answers[question.questionId] && 'ANSWERED'}
               </Grid.Column>
               <Grid.Column width={1} floated="right">
                 <Button
@@ -121,7 +124,7 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.goToQuestionDetails(question)}
+                  onClick={() => this.goToQuestionDetails(question, answers[question.questionId])}
                 >
                   <Icon name="check square" />
                 </Button>
@@ -146,5 +149,8 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
     )
   }
 }
-{/*  */}
+
+/* <Grid.Column width={3} floated="right">
+{question.timestamp.slice(0,10)}
+</Grid.Column> */
 

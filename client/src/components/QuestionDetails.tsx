@@ -12,6 +12,7 @@ import { Question } from '../types/Question'
 interface QuestionsProps {
   auth: Auth
   history: History
+  location?: any
   match: {
     params: {
       questionId: string
@@ -23,6 +24,7 @@ interface QuestionsProps {
 interface QuestionsState {
   value: string
   question?: Question
+  currResponse?: any
 }
 
 
@@ -36,7 +38,8 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
     try {
       const question = await getQuestion(this.props.auth.getIdToken(), userId, questionId)
       this.setState({
-        question
+        question,
+        currResponse: this.props.location.state.currResponse
       })
     } catch (e) {
       alert(`Failed to fetch question: ${e.message}`)
@@ -48,24 +51,26 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
   onSubmit = async (e: any) =>  {
     const {questionId, userId} = this.props.match.params
     const vote = {
-      responderId: userId,
       optionSelected: this.state.value,
     }
     try {
       await submitVote(this.props.auth.getIdToken(),userId, questionId, vote)
+      this.setState({currResponse: vote.optionSelected})
     } catch (e) {
       alert(`Failed to submit vote: ${e.message}`)
     }
   }
     
   render() {
-
+    const {currResponse} = this.state
     return (
       <div>
         <Header as="h1">Would You Rather</Header>
 
-        {this.renderReplyToPoll()}
-        {this.renderViewPollDetails()}
+        {currResponse ?
+          this.renderViewPollDetails()
+          : this.renderReplyToPoll()}
+
       </div>
     )
   }
