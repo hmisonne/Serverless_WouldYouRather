@@ -1,8 +1,6 @@
 export interface UserItem {
   userId: string 
-  answers: {
-    [propName: string] : string
-  } 
+  answers: any
   name?: string
   questions?: string[]
 }
