@@ -1,7 +1,6 @@
 import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { updateQuestionVote } from '../../businessLogic/questions'
-// import { createResponse } from '../../businessLogic/responses'
 import { VoteRequest } from '../../requests/VoteRequest'
 import { createLogger } from '../../utils/logger'
 import * as middy from 'middy'
@@ -17,7 +16,6 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   const userId = getUserId(event)
   const newVote: VoteRequest = JSON.parse(event.body) 
   await updateQuestionVote(creatorId, questionId, userId, newVote)
-  // await createResponse(questionId, userId, newVote)
   await updateUserVote(questionId, userId, newVote)
   
   return {

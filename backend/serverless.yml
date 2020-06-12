@@ -72,6 +72,19 @@ functions:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
 
+  GetResponses:
+    handler: src/lambda/http/getResponsesByUser.handler
+    events:
+      - http:
+          method: get
+          path: responses
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+
   CreateQuestion:
     handler: src/lambda/http/createQuestion.handler
     events:
@@ -88,6 +101,20 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
+  
+  CreateUser:
+    handler: src/lambda/http/createUser.handler
+    events:
+      - http:
+          method: post
+          path: users
+          cors: true
+          authorizer: Auth
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
 
   GetResponses:
     handler: src/lambda/http/getResponses.handler
