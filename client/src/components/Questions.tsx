@@ -1,5 +1,4 @@
 import * as React from 'react'
-import dateFormat from 'dateformat'
 import { History } from 'history'
 import {
   Divider,
@@ -25,6 +24,7 @@ interface QuestionsState {
   showUnanswered: boolean
   questions: Question[]
   answers: any
+  userId?: string
   loadingQuestions: boolean
 }
 
@@ -40,11 +40,20 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
     try {
       const questions = await getQuestions(this.props.auth.getIdToken())
       const result = await getAnswersByUser(this.props.auth.getIdToken())
-      this.setState({
-        questions,
-        answers: result[0].answers,
-        loadingQuestions: false
-      })
+      let answers = {}
+      let userId = ''
+      if (result[0]){
+        answers = result[0].answers
+        userId = result[0].userId
+      }
+      if (questions && result){
+        this.setState({
+          questions,
+          answers,
+          userId,
+          loadingQuestions: false
+        })
+      }
     } catch (e) {
       alert(`Failed to fetch questions: ${e.message}`)
     }
@@ -74,7 +83,6 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
     this.setState((prevState) => ({
       showUnanswered: !prevState.showUnanswered
     }))
-    console.log(this.state)
   }
   render() {
     return (
@@ -106,7 +114,7 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
   }
 
   renderQuestionsList() {
-    const {questions, answers, showUnanswered} = this.state
+    const {questions, answers, showUnanswered, userId} = this.state
     return (
       <Grid padded>
       <Button.Group>
@@ -126,22 +134,24 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
           if ((answers[question.questionId] && !showUnanswered) || (!answers[question.questionId] && showUnanswered)){
              return (
             <Grid.Row key={question.questionId}>
-              <Grid.Column width={1} verticalAlign="middle">
-              </Grid.Column>
               <Grid.Column width={10} verticalAlign="middle">
                 {question.optionOneText} or {question.optionTwoText} ?
               </Grid.Column>
               <Grid.Column width={10} verticalAlign="middle">
                 {answers[question.questionId] && 'ANSWERED'}
               </Grid.Column>
+              {(question.userId === userId) && 
+                <Grid.Column width={1} floated="right">
+                  <Button
+                    icon
+                    color="red"
+                    onClick={() => this.onQuestionDelete(question.questionId)}
+                  >
+                    <Icon name="delete" />
+                  </Button>
+                </Grid.Column>}
+              
               <Grid.Column width={1} floated="right">
-                <Button
-                  icon
-                  color="red"
-                  onClick={() => this.onQuestionDelete(question.questionId)}
-                >
-                  <Icon name="delete" />
-                </Button>
                 <Button
                   icon
                   color="blue"
@@ -149,17 +159,19 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                 >
                   <Icon name="check square" />
                 </Button>
-                <Button
-                  icon
-                  color="blue"
-                  onClick={() => this.goToUploadImage(question.questionId)}
-                >
-                  <Icon name="pencil" />
-                </Button>
-              </Grid.Column>
-              {question.attachmentUrl && (
-                <Image src= {question.attachmentUrl} size="small" wrapped/>
-              )}
+                </Grid.Column>
+                <Grid.Column width={1} floated="right"> 
+                  <Button
+                    icon
+                    color="blue"
+                    onClick={() => this.goToUploadImage(question.questionId)}
+                  >
+                    <Icon name="pencil" />
+                  </Button>
+                </Grid.Column>
+                {question.attachmentUrl && (
+                  <Image src= {question.attachmentUrl} size="small" wrapped/>
+                )}
               <Grid.Column width={16}>
                 <Divider />
               </Grid.Column>
@@ -172,8 +184,4 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
     )
   }
 }
-
-/* <Grid.Column width={3} floated="right">
-{question.timestamp.slice(0,10)}
-</Grid.Column> */
 

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Auth from '../auth/Auth'
+import { History } from 'history'
 import { createQuestion } from '../api/questions-api'
 import {
     Button,
@@ -7,33 +8,36 @@ import {
     Form
   } from 'semantic-ui-react'
 
-interface TodosProps {
+interface CreateQuestionProps {
     auth: Auth
+    history: History
 }
 
-interface TodosState {
-    OptionOne: string
-    OptionTwo: string
+interface CreateQuestionState {
+  optionOne: string
+  optionTwo: string
 }
 
-export class CreateQuestion extends React.PureComponent<TodosProps, TodosState> {
-    state: TodosState = {
-        OptionOne: '',
-        OptionTwo: ''
+export class CreateQuestion extends React.PureComponent<CreateQuestionProps, CreateQuestionState> {
+    state: CreateQuestionState = {
+        optionOne: '',
+        optionTwo: ''
       }
+    
     handleOptionOneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ OptionOne: event.target.value })
+        this.setState({ optionOne: event.target.value })
       }
     handleOptionTwoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ OptionTwo: event.target.value })
+        this.setState({ optionTwo: event.target.value })
     }
     onQuestionCreate = async (event: React.SyntheticEvent) => {
         event.preventDefault()
         try {
-          const newQuestion = await createQuestion(this.props.auth.getIdToken(), {
-            optionOneText: this.state.OptionOne,
-            optionTwoText: this.state.OptionTwo,
+          await createQuestion(this.props.auth.getIdToken(), {
+            optionOneText: this.state.optionOne,
+            optionTwoText: this.state.optionTwo,
           })
+          this.props.history.push(`/`)
         } catch {
           alert('Question creation failed')
         }
@@ -48,6 +52,7 @@ export class CreateQuestion extends React.PureComponent<TodosProps, TodosState> 
         )
     }
     renderCreateQuestionInput() {
+      const {optionOne, optionTwo} = this.state
         return (
             <Form onSubmit= {this.onQuestionCreate} >
                 <Form.Field>
@@ -62,7 +67,7 @@ export class CreateQuestion extends React.PureComponent<TodosProps, TodosState> 
                         onChange={this.handleOptionOneChange}
                         placeholder='Do that' />
                 </Form.Field>
-                <Button type='submit'>Submit</Button>
+                <Button type='submit' disabled={optionOne.length <5 || optionTwo.length <5}>Submit</Button>
             </Form>
         )
     }
