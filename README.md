@@ -264,6 +264,8 @@ This pre-signed URL is then used to upload an attachment file to a s3 bucket for
 
 `POST https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/users`
 
+it returns a JSON object that looks like this:
+
 ```json
 {
     "user": [
@@ -301,3 +303,6 @@ An id of a user can be extracted from a JWT token passed by a client.
 
 The `serverless.yml` file includes all of these functions as well as a DynamoDB table and a S3 bucket in the `resources`.
 
+## Test
+
+To test the endpoints of this application download the postman collection: `ServerlessWYR.postman_collection.json`
