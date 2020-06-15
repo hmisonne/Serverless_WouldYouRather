@@ -12,7 +12,7 @@ This application allows users to play the would you rather game by answering and
 ### Prerequisites
 
 * AWS account
-* npm
+* Node.js
 * Auth0
 
 #### AWS Serverless
