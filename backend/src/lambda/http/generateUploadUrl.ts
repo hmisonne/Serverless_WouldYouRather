@@ -26,7 +26,9 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
         logger.info('Incorrect request for questionId: ', questionId)
         return {
             statusCode: 404,
-            body: 'questionId does not exist or user not authorized to upload image for questionId'
+            body: JSON.stringify({
+                error: 'questionId does not exist or user not authorized to perform operation'
+            })
         }
     }
     const updatedQuestion = {

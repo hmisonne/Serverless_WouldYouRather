@@ -19,7 +19,9 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
     logger.info('Incorrect ID: ', questionId)
     return {
         statusCode: 404,
-        body: 'questionId does not exist'
+        body: JSON.stringify({
+          error: 'Question cannot be found with the questionId provided'
+        })
       }
   }
   return {

@@ -23,7 +23,9 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
       logger.info('Incorrect request for questionId: ', questionId)
       return {
           statusCode: 404,
-          body: "Question can't be found with the userId questionId provided"
+          body: JSON.stringify({
+            error: 'Question cannot be found with the questionId and userId provided'
+          })
       }
   }
   await updateQuestionVote(creatorId, questionId, userId, newVote)
