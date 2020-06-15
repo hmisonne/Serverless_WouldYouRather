@@ -215,7 +215,11 @@ It receives an object that contains that the option selected:
 
 The id of the current user (responder of the poll) is extracted from a JWT token passed by the client.
 
-It will append the userId (responder id) to the optionSelected parameter (optionOneVote/optionTwoVote) of the question item. It returns an empty body.
+This function will update the QUESTION item as well as the USER item:
+- It will append the userId (responder id) to the optionSelected parameter (optionOneVote/optionTwoVote) of the QUESTION item: `"optionOneVote": [..., "4551045123"]`
+- It will add a new element to the answers parameter of the USER item with the questionId as key and optionSelected as value. `"answers": {..., "286c3233-a2fa-496a-9bc9-9d8cab3ed5f5": "optionOne"}`
+
+It returns an empty body.
 
 * `DeleteQuestion` - delete a QUESTION item created by a current user. Expects an id of a QUESTION item to remove. 
 
@@ -223,7 +227,7 @@ It will append the userId (responder id) to the optionSelected parameter (option
 
 It returns an empty body.
 
-* `GenerateUploadUrl` - returns a pre-signed URL that can be used to upload an attachment file for a QUESTION item.
+* `GenerateUploadUrl` - it is used to add a picture to a QUESTION item.
 
 `POST https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/questions/{questionId}/attachment`
 
@@ -231,9 +235,13 @@ It returns a JSON object that looks like this:
 
 ```json
 {
-  "uploadUrl": "https://s3-bucket-name.s3.eu-west-2.amazonaws.com/image.png"
+  "uploadUrl": "https://{{s3-bucket-name.s3}}.eu-west-2.amazonaws.com/{{image-name}}.png"
 }
 ```
+
+This pre-signed URL is then used to upload an attachment file to a s3 bucket for a QUESTION item. It then updates the QUESTION item by adding an attachmentUrl key with the s3 location of the item as value `{attachmentUrl: "https://${bucketName}.s3.amazonaws.com/${questionId}"}`
+
+
 ### User API
 
 * `createUser` - add a new user to the database:
