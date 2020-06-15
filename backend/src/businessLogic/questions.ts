@@ -43,3 +43,7 @@ export async function updateQuestionUrl(updatedQuestion, userId: string, questio
         attachmentUrl: updatedQuestion.attachmentUrl,
     })
 }
+
+export async function getUploadUrl(questionId: string): Promise<string>{
+    return questionAccess.getUploadUrl(questionId)
+}

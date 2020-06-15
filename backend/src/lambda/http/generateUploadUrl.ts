@@ -1,7 +1,6 @@
 import 'source-map-support/register'
-import * as AWS from 'aws-sdk'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
-import { updateQuestionUrl } from '../../businessLogic/questions'
+import { updateQuestionUrl, getUploadUrl } from '../../businessLogic/questions'
 import { getUserId } from '../utils'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
@@ -9,12 +8,7 @@ import { createLogger } from '../../utils/logger'
 
 const logger = createLogger('uploadImage')
 
-const s3 = new AWS.S3({
-    signatureVersion: 'v4'
-})
-
 const bucketName = process.env.ATTACHEMENTS_S3_BUCKET
-const urlExpiration = process.env.SIGNED_URL_EXPIRATION
 
 
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -38,13 +32,6 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
     }
 })
 
-function getUploadUrl(questionId: string) {
-    return s3.getSignedUrl('putObject', {
-        Bucket: bucketName,
-        Key: questionId,
-        Expires: +urlExpiration
-    })
-}
 
 handler.use(
     cors({

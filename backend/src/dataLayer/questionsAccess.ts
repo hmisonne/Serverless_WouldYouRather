@@ -1,13 +1,21 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { QuestionItem } from '../models/QuestionItem'
 import * as AWS from 'aws-sdk'
-// const AWSXRay = require('aws-xray-sdk')
-// const XAWS = AWSXRay.captureAWS(AWS)
+
+const AWSXRay = require('aws-xray-sdk')
+const XAWS = AWSXRay.captureAWS(AWS)
+
 
 export class QuestionAccess {
     constructor(
-        private readonly docClient: DocumentClient = new AWS.DynamoDB.DocumentClient(),
-        private readonly questionTable = process.env.QUESTIONS_TABLE){}
+        private readonly docClient: DocumentClient = new XAWS.DynamoDB.DocumentClient(),
+        private readonly questionTable = process.env.QUESTIONS_TABLE,
+        private readonly bucketName = process.env.ATTACHEMENTS_S3_BUCKET,
+        private readonly urlExpiration = process.env.SIGNED_URL_EXPIRATION,
+        private readonly s3 = new XAWS.S3({
+            signatureVersion: 'v4'
+        })
+        ){}
 
     async getAllQuestions(limit, nextKey): Promise<any> {
 
@@ -94,6 +102,14 @@ export class QuestionAccess {
             },
             ReturnValues: "UPDATED_NEW"
         }).promise()
+    }
+
+    async getUploadUrl(questionId: string): Promise<string> {
+        return this.s3.getSignedUrl('putObject', {
+            Bucket: this.bucketName,
+            Key: questionId,
+            Expires: +this.urlExpiration
+        })
     }
     
 }
