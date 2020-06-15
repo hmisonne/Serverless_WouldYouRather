@@ -1,3 +1,6 @@
+
+![Build Status](https://travis-ci.com/hmisonne/Serverless_Readable.svg?branch=master)](https://travis-ci.com/hmisonne/Serverless_Readable)
+
 # Would You Rather - Serverless App
 
 ## Functionality of the application
