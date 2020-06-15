@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "question",
+    "type": "object",
+    "properties": {
+      "optionSelected": {
+        "enum": ["optionOneVote", "optionTwoVote"]
+      }
+    },
+    "required": [
+        "optionSelected"
+      ],
+    "additionalProperties": false
+  }
