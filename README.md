@@ -216,8 +216,24 @@ It receives an object that contains that the option selected:
 The id of the current user (responder of the poll) is extracted from a JWT token passed by the client.
 
 This function will update the QUESTION item as well as the USER item:
-- It will append the userId (responder id) to the optionSelected parameter (optionOneVote/optionTwoVote) of the QUESTION item: `"optionOneVote": [..., "4551045123"]`
-- It will add a new element to the answers parameter of the USER item with the questionId as key and optionSelected as value. `"answers": {..., "286c3233-a2fa-496a-9bc9-9d8cab3ed5f5": "optionOne"}`
+- It will append the userId (responder id) to the optionSelected parameter (optionOneVote/optionTwoVote) of the QUESTION item: 
+```json
+{
+    ...
+    "optionOneVote": [..., "4551045123"]
+}
+```
+- It will add a new element to the answers parameter of the USER item with the questionId as key and optionSelected as value. 
+```json
+{
+    ...
+    "answers": {
+        ..., 
+        "286c3233-a2fa-496a-9bc9-9d8cab3ed5f5": "optionOne"
+    }
+}
+```
+
 
 It returns an empty body.
 
