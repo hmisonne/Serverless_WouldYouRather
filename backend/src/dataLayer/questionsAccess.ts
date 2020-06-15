@@ -1,7 +1,6 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { QuestionItem } from '../models/QuestionItem'
 import * as AWS from 'aws-sdk'
-import { truncate } from 'fs'
 
 const AWSXRay = require('aws-xray-sdk')
 const XAWS = AWSXRay.captureAWS(AWS)
