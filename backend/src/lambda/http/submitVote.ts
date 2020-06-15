@@ -17,7 +17,7 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   const newVote: VoteRequest = JSON.parse(event.body) 
 
   // Check if question exist and if created by current user.
-  const result = await getQuestion(userId, questionId)
+  const result = await getQuestion(creatorId, questionId)
 
   if (result.length === 0 ){
       logger.info('Incorrect request for questionId: ', questionId)
@@ -33,7 +33,9 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   
   return {
     statusCode: 200,
-    body: 'Vote submitted'
+    body: JSON.stringify({
+      message: 'Vote submitted'
+    })
   }
 })
 

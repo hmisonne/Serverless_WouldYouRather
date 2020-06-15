@@ -28,7 +28,9 @@ await deleteQuestion(questionId, userId)
 
   return {
     statusCode: 200,
-    body: 'Question Deleted'
+    body: JSON.stringify({
+      message: 'Question Deleted'
+    })
   }
  
 })
