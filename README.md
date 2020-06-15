@@ -217,14 +217,14 @@ The id of the current user (responder of the poll) is extracted from a JWT token
 
 This function will update the QUESTION item as well as the USER item:
 - It will append the userId (responder id) to the optionSelected parameter (optionOneVote/optionTwoVote) of the QUESTION item: 
-```json
+```
 {
     ...
     "optionOneVote": [..., "4551045123"]
 }
 ```
 - It will add a new element to the answers parameter of the USER item with the questionId as key and optionSelected as value. 
-```json
+```
 {
     ...
     "answers": {
