@@ -1,6 +1,6 @@
 import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
-import { updateQuestionVote } from '../../businessLogic/questions'
+import { updateQuestionVote, getQuestion } from '../../businessLogic/questions'
 import { VoteRequest } from '../../requests/VoteRequest'
 import { createLogger } from '../../utils/logger'
 import * as middy from 'middy'
@@ -15,6 +15,17 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   const creatorId = event.pathParameters.userId
   const userId = getUserId(event)
   const newVote: VoteRequest = JSON.parse(event.body) 
+
+  // Check if question exist and if created by current user.
+  const result = await getQuestion(userId, questionId)
+
+  if (result.length === 0 ){
+      logger.info('Incorrect request for questionId: ', questionId)
+      return {
+          statusCode: 404,
+          body: "Question can't be found with the userId questionId provided"
+      }
+  }
   await updateQuestionVote(creatorId, questionId, userId, newVote)
   await updateUserVote(questionId, userId, newVote)
   
