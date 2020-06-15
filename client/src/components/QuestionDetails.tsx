@@ -62,7 +62,7 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
   }
     
   render() {
-    const {currResponse} = this.state
+    const {currResponse, question} = this.state
     return (
       <div>
         <Header as="h1">Would You Rather</Header>
@@ -108,6 +108,7 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
     let optionTwoResult = 0
     let optionOneText = ''
     let optionTwoText = ''
+    let currResponse = ''
     this.state.question && this.state.question.optionOneVote && (
       optionOneResult = this.state.question.optionOneVote.length
       )
@@ -120,13 +121,33 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
     this.state.question && this.state.question.optionTwoText && (
       optionTwoText = this.state.question.optionTwoText
       )
+    this.state.currResponse && (
+      currResponse = this.state.currResponse
+      )
     
 
     const totalVotes = optionOneResult + optionTwoResult
     return(
       <div>
-        <Progress value={optionOneResult} total={totalVotes} progress='percent' label={optionOneText}/>
-        <Progress value={optionTwoResult} total={totalVotes} progress='percent' label={optionTwoText}/>
+        <Progress 
+          value={optionOneResult} 
+          total={totalVotes} 
+          progress='percent'
+          color='blue' 
+          label={optionOneText}
+          precision={1}/>
+        <Progress 
+          value={optionTwoResult} 
+          total={totalVotes} 
+          progress='percent'
+          color='blue' 
+          label={optionTwoText}
+          precision={1}/>
+        <div>Your vote: {
+        (currResponse === 'optionOne')? 
+          optionOneText
+          : optionTwoText
+        }</div>
 			</div>
 
     )

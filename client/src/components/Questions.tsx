@@ -137,38 +137,41 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
               <Grid.Column width={10} verticalAlign="middle">
                 {question.optionOneText} or {question.optionTwoText} ?
               </Grid.Column>
-              <Grid.Column width={10} verticalAlign="middle">
-                {answers[question.questionId] && 'ANSWERED'}
-              </Grid.Column>
-              {(question.userId === userId) && 
-                <Grid.Column width={1} floated="right">
-                  <Button
-                    icon
-                    color="red"
-                    onClick={() => this.onQuestionDelete(question.questionId)}
-                  >
-                    <Icon name="delete" />
-                  </Button>
-                </Grid.Column>}
               
               <Grid.Column width={1} floated="right">
                 <Button
                   icon
-                  color="blue"
+                  color="green"
                   onClick={() => this.goToQuestionDetails(question, answers[question.questionId])}
                 >
                   <Icon name="check square" />
                 </Button>
+                
                 </Grid.Column>
-                <Grid.Column width={1} floated="right"> 
-                  <Button
-                    icon
-                    color="blue"
-                    onClick={() => this.goToUploadImage(question.questionId)}
-                  >
-                    <Icon name="pencil" />
-                  </Button>
-                </Grid.Column>
+                
+                  <Grid.Column width={1} floated="right"> 
+                  {(question.userId === userId) &&
+                    <Button
+                      icon
+                      color="blue"
+                      onClick={() => this.goToUploadImage(question.questionId)}
+                    >
+                      <Icon name="pencil" />
+                    </Button>
+                     }
+                  </Grid.Column>
+                  <Grid.Column width={1} floated="right">
+                    {(question.userId === userId) &&
+                      <Button
+                        icon
+                        color="red"
+                        onClick={() => this.onQuestionDelete(question.questionId)}
+                      >
+                        <Icon name="delete" />
+                      </Button>
+                    }
+                  </Grid.Column>
+               
                 {question.attachmentUrl && (
                   <Image src= {question.attachmentUrl} size="small" wrapped/>
                 )}
