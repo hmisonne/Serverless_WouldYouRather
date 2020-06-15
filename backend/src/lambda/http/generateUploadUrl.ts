@@ -1,6 +1,6 @@
 import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
-import { updateQuestionUrl, getUploadUrl } from '../../businessLogic/questions'
+import { updateQuestionUrl, getUploadUrl, getQuestion } from '../../businessLogic/questions'
 import { getUserId } from '../utils'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
@@ -18,6 +18,17 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
     // Update dynamoDb with Url
     const uploadUrl = getUploadUrl(questionId)
     const userId = getUserId(event)
+
+      // Check if question exist and if created by current user.
+    const result = await getQuestion(userId, questionId)
+
+    if (result.length === 0 ){
+        logger.info('Incorrect request for questionId: ', questionId)
+        return {
+            statusCode: 404,
+            body: 'questionId does not exist or user not authorized to upload image for questionId'
+        }
+    }
     const updatedQuestion = {
         attachmentUrl: `https://${bucketName}.s3.amazonaws.com/${questionId}`
     }

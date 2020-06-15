@@ -1,6 +1,7 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { QuestionItem } from '../models/QuestionItem'
 import * as AWS from 'aws-sdk'
+import { truncate } from 'fs'
 
 const AWSXRay = require('aws-xray-sdk')
 const XAWS = AWSXRay.captureAWS(AWS)
@@ -18,41 +19,44 @@ export class QuestionAccess {
         ){}
 
     async getAllQuestions(limit, nextKey): Promise<any> {
-
-        const result = await this.docClient.scan({
+        const params = {
             TableName: this.questionTable,
             Limit: limit,
             ExclusiveStartKey: nextKey
-          }).promise()
+          }
+        const result = await this.docClient.scan(params).promise()
           
-          const items = result.Items
+        const items = result.Items
 
-          return items
+        return items
         
     }
 
     async createQuestion(newQuestion: QuestionItem): Promise<QuestionItem> {
-        await this.docClient.put({
+        const params = {
             TableName: this.questionTable,
             Item: newQuestion,
-          }).promise()
-          
+          }
 
+        await this.docClient.put(params).promise()
+    
         return newQuestion
         
     }
     async deleteQuestion(userId: string, questionId: string): Promise<void> {
-        await this.docClient.delete({
+        const params = {
             TableName: this.questionTable,
             Key:{
                 userId,
                 questionId
             },
-          }).promise()
+          }
+        
+        await this.docClient.delete(params).promise()
     }
 
     async updateQuestionVote(creatorId: string, userId: string, questionId: string, optionSelected: string): Promise<void> {
-         await this.docClient.update({
+        const params = {
             TableName: this.questionTable,
             Key:{
                 userId: creatorId,
@@ -67,19 +71,22 @@ export class QuestionAccess {
                 ':empty_list': []
             },
             ReturnValues: "UPDATED_NEW"
-        }).promise()
+        }
+
+        await this.docClient.update(params).promise()
 
     }
 
     async getQuestion(userId: string, questionId: string): Promise<QuestionItem[]>{
-        const result = await this.docClient.query({
+        const params = {
             TableName: this.questionTable,
             KeyConditionExpression: 'userId = :userId AND questionId = :questionId',
             ExpressionAttributeValues: {
                 ':userId': userId,
                 ':questionId': questionId
             }
-        }).promise()
+        }
+        const result = await this.docClient.query(params).promise()
 
         const items = result.Items
 
@@ -87,7 +94,7 @@ export class QuestionAccess {
     }
 
     async updateQuestionUrl(updateQuestion: any): Promise<void>{
-        await this.docClient.update({
+        const params = {
             TableName: this.questionTable,
             Key: {
                 userId: updateQuestion.userId,
@@ -101,15 +108,16 @@ export class QuestionAccess {
                 ":attachmentUrl": updateQuestion.attachmentUrl
             },
             ReturnValues: "UPDATED_NEW"
-        }).promise()
+        }
+        await this.docClient.update(params).promise()
     }
 
-    async getUploadUrl(questionId: string): Promise<string> {
-        return this.s3.getSignedUrl('putObject', {
+    getUploadUrl(questionId: string): string {
+        const params = {
             Bucket: this.bucketName,
             Key: questionId,
             Expires: +this.urlExpiration
-        })
+        }
+        return this.s3.getSignedUrl('putObject', params)
     }
-    
 }
