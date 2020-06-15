@@ -104,7 +104,7 @@ export class QuestionAccess {
         }).promise()
     }
 
-    async getUploadUrl(questionId: string): Promise<string> {
+    getUploadUrl(questionId: string): string {
         return this.s3.getSignedUrl('putObject', {
             Bucket: this.bucketName,
             Key: questionId,
