@@ -17,14 +17,7 @@ plugins:
 provider:
   tracing:
     lambda: true
-    apiGateway: true
-  iamRoleStatements:           
-      - Effect: 'Allow'
-        Action:
-          - 'xray:PutTraceSegments'
-          - 'xray:PutTelemetryRecords'
-        Resource:
-          - '*'
+    apiGateway: true       
   name: aws
   runtime: nodejs12.x
   
@@ -58,6 +51,12 @@ functions:
         Action:
           - dynamodb:Scan
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
 
   GetQuestion:
     handler: src/lambda/http/getQuestion.handler
@@ -71,6 +70,12 @@ functions:
         Action:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
 
   GetUser:
     handler: src/lambda/http/getResponsesByUser.handler
@@ -88,6 +93,12 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
 
   CreateQuestion:
     handler: src/lambda/http/createQuestion.handler
@@ -105,7 +116,13 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
-  
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
+
   CreateUser:
     handler: src/lambda/http/createUser.handler
     events:
@@ -119,6 +136,12 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
 
   DeleteQuestion:
     handler: src/lambda/http/deleteQuestion.handler
@@ -133,6 +156,12 @@ functions:
         Action:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
 
   submitVote:
     handler: src/lambda/http/submitVote.handler
@@ -158,6 +187,12 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
@@ -178,7 +213,13 @@ functions:
           - dynamodb:UpdateItem
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.QUESTIONS_TABLE}
-
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
+          
 resources:
   Resources:
     GatewayResponseDefault4XX:
