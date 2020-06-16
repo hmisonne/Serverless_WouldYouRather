@@ -7,6 +7,8 @@
 
 This application allows users to play the would you rather game by answering and creating questions. The goal of this project was to build and deploy a serverless application on AWS. To accomplish this task, I built the API using TypeScript and the frontend using the React framework.
 
+![WYR Demo](demo/demo.gif)
+
 ## How to run the application
 
 ### Prerequisites
