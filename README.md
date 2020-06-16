@@ -306,3 +306,9 @@ The `serverless.yml` file includes all of these functions as well as a DynamoDB 
 ## Test
 
 To test the endpoints of this application download the postman collection: `ServerlessWYR.postman_collection.json`
+
+## CI/CD pipeline
+
+I used Travis to automically deploy and update the application. Each time a new commit is pushed to the master branch, a new build is triggered. 
+A commit pushed to the development branch won't trigger a new deployment, which allows to integrate changes without affecting the production environment.
+
