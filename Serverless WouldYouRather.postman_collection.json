@@ -229,13 +229,13 @@
 							"script": {
 								"id": "b9ba836c-7f2f-4a7d-9658-3ba1e39c2ed2",
 								"exec": [
-									"pm.test(\"Status code is 403\", function () {\r",
-									"    pm.response.to.have.status(403);\r",
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Authorization is explicitly denied\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.message).to.eql(\"User is not authorized to access this resource with an explicit deny\");\r",
+									"    pm.expect(jsonData.message).to.eql(\"Unauthorized\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -522,7 +522,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/questions/2166009e-332e-457b-8d81-6d1ecd84e836",
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/questions/91ea0481-e7c3-4b39-83a6-edaf3f2ff46e",
 							"protocol": "https",
 							"host": [
 								"{{apiId}}",
@@ -534,14 +534,14 @@
 							"path": [
 								"dev",
 								"questions",
-								"2166009e-332e-457b-8d81-6d1ecd84e836"
+								"91ea0481-e7c3-4b39-83a6-edaf3f2ff46e"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Delete question Invalid",
+					"name": "Delete question Invalid questionId",
 					"event": [
 						{
 							"listen": "test",
@@ -573,7 +573,7 @@
 							{
 								"key": "Authorization",
 								"type": "text",
-								"value": "Bearer {{authToken2}}"
+								"value": "Bearer {{authToken}}"
 							}
 						],
 						"body": {
@@ -597,6 +597,68 @@
 								"dev",
 								"questions",
 								"INVALID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete question Invalid userId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1d49273e-b806-4c6e-8087-17cabf924269",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"A single item is returned\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.error).to.eql(\"questionId does not exist or user not authorized to perform operation\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authToken2}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/questions/2166009e-332e-457b-8d81-6d1ecd84e836",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"questions",
+								"2166009e-332e-457b-8d81-6d1ecd84e836"
 							]
 						}
 					},
@@ -798,6 +860,68 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create user Invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "161fd54a-fe38-481a-8917-d659a7af1609",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"It returns a user object with an 'answers' key\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql('User is not authorized to access this resource with an explicit deny');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authTokenInvalid}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/users",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"users"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
@@ -849,20 +973,26 @@
 	],
 	"variable": [
 		{
-			"id": "fccb213d-d4f2-4f57-a04b-3b9180d0103d",
+			"id": "d9ecced1-595c-4f32-9817-8635edeb8c45",
 			"key": "apiId",
 			"value": "xfiw724dof",
 			"type": "string"
 		},
 		{
-			"id": "ac67f976-bf71-4c69-a824-c8026b690208",
+			"id": "0633c32c-22b8-4e62-ba9c-4164994c2c22",
 			"key": "authToken",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "0940e4d4-7765-4ffc-b90f-d9b3f05bbef3",
+			"id": "43f1c876-a3aa-455c-8494-845999383d40",
 			"key": "authToken2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "6a457a7f-1567-4857-aee3-f1260b9e6a3b",
+			"key": "authTokenInvalid",
 			"value": "",
 			"type": "string"
 		}
