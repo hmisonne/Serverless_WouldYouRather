@@ -20,7 +20,7 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
     return {
         statusCode: 404,
         body: JSON.stringify({
-          error: 'questionId does not exist or user not authorized to operation'
+          error: 'questionId does not exist or user not authorized to perform operation'
         })
       }
   }
