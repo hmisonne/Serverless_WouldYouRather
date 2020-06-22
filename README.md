@@ -3,9 +3,11 @@
 
 # Would You Rather - Serverless App
 
+This is my capstone project for the Cloud Developer Nanodegree. The goal of this project was to build and deploy a serverless application on AWS. To accomplish this task, I decided to re-use one of my previous project: [Would You Rather React App](https://github.com/hmisonne/UdacityReact/tree/master/02_would_you_rather_app) because it required user's authentification to login and interact with the app, and because the backend server needed to be configured.
+
 ## Functionality of the application
 
-This application allows users to play the would you rather game by answering and creating questions. The goal of this project was to build and deploy a serverless application on AWS. To accomplish this task, I built the API using TypeScript and the frontend using the React framework.
+This application allows users to play the would you rather game by answering and creating questions. 
 
 ![WYR Demo](demo/demo.gif)
 
