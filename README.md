@@ -3,11 +3,13 @@
 
 # Would You Rather - Serverless App
 
-This is my capstone project for the Cloud Developer Nanodegree. The goal of this project was to build and deploy a serverless application on AWS. To accomplish this task, I decided to re-use one of my previous project: [Would You Rather React App](https://github.com/hmisonne/UdacityReact/tree/master/02_would_you_rather_app) because it required user's authentification to login and interact with the app, and because the backend server needed to be configured.
+This is my capstone project for the Cloud Developer Nanodegree. The goal of this project was to build and deploy a serverless application on AWS. To accomplish this task, I decided to re-use one of my previous project: a React Web App for a "Would You Rather" game. Click [here](https://github.com/hmisonne/UdacityReact/tree/master/02_would_you_rather_app) to see the original project . 
+
+This project was already using a simple user's authentification to login and interact with the app (by selecting a user from drop down menu) and had interesting features that could be implemented in a serverless framework. With this project, I could implement a fully secured authentification through Auth0 and configure an AWS Cloud backend server.
 
 ## Functionality of the application
 
-This application allows users to play the would you rather game by answering and creating questions. 
+This application allows users to play the would you rather game by answering, creating questions and uploading images. 
 
 ![WYR Demo](demo/demo.gif)
 
@@ -78,6 +80,10 @@ Upon voting in a poll, information about how many people voted for one particula
 ### Submit new polling question
 
 The user can submit a new question by entering 2 options. Once created, the new question will be added  to the unanswered questions of the dashboard.
+
+### Add picture to question
+
+The user can upload a picture to a question that he created. Once uploaded, the picture will be shown on the Dashboard.
 
 ## About the DB structure
 
