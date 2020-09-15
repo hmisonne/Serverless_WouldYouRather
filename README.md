@@ -48,7 +48,10 @@ npm run start
 
 ### Deploy the backend server to AWS
 
-To deploy this application and generate your apiId, use the following commands: `sls deploy -v`.
+To deploy this application from the backend folder and generate your apiId, use the following commands: `sls deploy -v`. Make sure before running this command that you have run:
+```
+npm install
+```
 
 ### Run the frontend server
 
