@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.com/hmisonne/Serverless_Readable.svg?branch=master)](https://travis-ci.com/hmisonne/Serverless_Readable)
+[![Build Status](https://travis-ci.com/hmisonne/Serverless_WouldYouRather.svg?branch=master)](https://travis-ci.com/hmisonne/Serverless_Readable)
 
 # Would You Rather - Serverless App
 
