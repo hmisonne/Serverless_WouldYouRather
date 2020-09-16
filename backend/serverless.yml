@@ -30,7 +30,6 @@ provider:
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     QUESTIONS_TABLE: Questions-${self:provider.stage}
-    RESPONSES_TABLE: Answers-${self:provider.stage}
     USERS_TABLE: Users-${self:provider.stage}
     ATTACHEMENTS_S3_BUCKET: serverless-wyr-files-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
