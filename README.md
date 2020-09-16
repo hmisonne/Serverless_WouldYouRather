@@ -3,10 +3,20 @@
 
 # Would You Rather - Serverless App
 
-This is my capstone project for the Cloud Developer Nanodegree. The goal of this project was to build and deploy a serverless application on AWS. To accomplish this task, I decided to re-use one of my previous project: a React Web App for a "Would You Rather" game. Click [here](https://github.com/hmisonne/UdacityReact/tree/master/02_would_you_rather_app) to see the original project . 
+This is my capstone project for the Cloud Developer Nanodegree. The goal of this project was to build and deploy a serverless application on AWS. To accomplish this task, I decided to build a "Would You Rather" game with a React frontend and a Node.JS backend using a serverless framework.
 
-This project was already using a simple user's authentification to login and interact with the app (by selecting a user from drop down menu) and had interesting features that could be implemented in a serverless framework. With this project, I could implement a fully secured authentification through Auth0 and configure an AWS Cloud backend server.
+I used a [CloudFormation Template](backend/serverless.yaml) to deploy:
+- An API gateway
+- Multiple Lambda Functions with proper IAM permissions
+- 2 DynamoDB tables to store records of Users and Questions
+- S3 bucket to store images uploaded by Users
 
+This project is also using a fully secured authentification system through Auth0.
+
+The frontend is currently deployed on a S3 bucket.
+
+
+![WYR AWS deployment](demo/WYR_AWS_Deployment.png)
 ## Functionality of the application
 
 This application allows users to play the would you rather game by answering, creating questions and uploading images. 
@@ -48,10 +58,7 @@ npm run start
 
 ### Deploy the backend server to AWS
 
-To deploy this application from the backend folder and generate your apiId, use the following commands: `sls deploy -v`. Make sure before running this command that you have run:
-```
-npm install
-```
+To deploy this application from the backend folder and generate your apiId, use the following commands: `sls deploy -v`. Make sure before running this command that you have run: `npm install`
 
 ### Run the frontend server
 
