@@ -144,7 +144,7 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
           label={optionTwoText}
           precision={1}/>
         <div>Your vote: {
-        (currResponse === 'optionOne')? 
+        (currResponse === 'optionOneVote')? 
           optionOneText
           : optionTwoText
         }</div>
