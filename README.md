@@ -21,6 +21,30 @@ The frontend is currently deployed on a S3 bucket.
 
 This application allows users to play the would you rather game by answering, creating questions and uploading images. 
 
+### Screens
+
+### Submit new polling question
+
+The user can submit a new question by entering 2 options. Once created, the new question will be added  to the unanswered questions of the dashboard.
+
+
+#### Dashboard (Home Screen)
+
+A list of all polls posted is displayed on the home screen. The user can toggle a button to see either the polls that has been answered or unanswered by himself.
+The option to delete a question or upload a picture will only be available for questions that has been authored by the specific user.
+
+### Add picture to question
+
+The user can upload a picture to a question that he created. Once uploaded, the picture will be shown on the Dashboard.
+
+#### Poll Details
+
+By clicking on the green button on one specific question from the Dashboard, the user is able to vote provided that he has not done so before. There is 2 options for each poll. Upon voting in a poll, information about how many people voted for one particular option is displayed along with the user's response.
+
+### Submit new polling question
+
+The user can submit a new question by entering 2 options. 
+
 ![WYR Demo](demo/demo.gif)
 
 ## How to run this application using the backend server already deployed in AWS
@@ -54,7 +78,9 @@ npm run start
 
 1. On your Auth0 account, create a new application with React framework. 
 
-2. On the Settings -> Application URIs -> Allowed Callback URLs insert: `http://localhost:3000/callback`, and Allowed Web Origins: `http://localhost:3000/`
+2. On the Settings -> Application URIs -> Allowed Callback URLs insert: `http://${hosted_domain}/callback`, and Allowed Web Origins: `http://${hosted_domain}/`
+
+If deployed locally, replace the hosted_domain with  `localhost:3000`
 
 ### Deploy the backend server to AWS
 
@@ -85,25 +111,6 @@ cd client
 npm install
 npm run start
 ```
-
-## Screens
-
-### Dashboard (Home Screen)
-
-A list of all polls posted is displayed on the home screen. The user can toggle a button to see either the polls that has been answered or unanswered by himself.
-
-### Poll Details
-
-By clicking on vote on one specific poll from the home page, the user is able to vote provided that he has not done so before. There is 2 options for each poll.
-Upon voting in a poll, information about how many people voted for one particular option is displayed along with the user's response.
-
-### Submit new polling question
-
-The user can submit a new question by entering 2 options. Once created, the new question will be added  to the unanswered questions of the dashboard.
-
-### Add picture to question
-
-The user can upload a picture to a question that he created. Once uploaded, the picture will be shown on the Dashboard.
 
 ## About the DB structure
 
