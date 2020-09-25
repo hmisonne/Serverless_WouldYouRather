@@ -98,26 +98,12 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
                 onChange={this.handleChange}
               />
               )}
-            
               <Form.Button onClick={this.onSubmit}>Vote</Form.Button>
           </Form.Group>
         </Form>
       </div>
     )
   }
-
-  // <Form.Radio
-  //             label={optionOneText}
-  //             value='optionOneVote'
-  //             checked={value === 'optionOneVote'}
-  //             onChange={this.handleChange}
-  //             />
-  //             <Form.Radio
-  //             label={optionTwoText}
-  //             value='optionTwoVote'
-  //             checked={value === 'optionTwoVote'}
-  //             onChange={this.handleChange}
-  //             />
 
   renderViewPollDetails() {
     let optionOneResult = 0
@@ -143,22 +129,26 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
     
 
     const totalVotes = optionOneResult + optionTwoResult
+    const results = [{
+      value: optionOneResult,
+      label: optionOneText
+    },
+    {
+      value: optionTwoResult,
+      label: optionTwoText
+    }
+  ]
     return(
       <div>
-        <Progress 
-          value={optionOneResult} 
-          total={totalVotes} 
-          progress='percent'
-          color='blue' 
-          label={optionOneText}
-          precision={1}/>
-        <Progress 
-          value={optionTwoResult} 
-          total={totalVotes} 
-          progress='percent'
-          color='blue' 
-          label={optionTwoText}
-          precision={1}/>
+        {results.map(result => 
+          <Progress 
+            value={result.value} 
+            total={totalVotes} 
+            progress='percent'
+            color='blue' 
+            label={result.label}
+            precision={1}/>
+          )}
         <div>Your vote: {
         (currResponse === 'optionOneVote')? 
           optionOneText
