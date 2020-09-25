@@ -171,17 +171,19 @@ export class Questions extends React.PureComponent<QuestionsProps, QuestionsStat
                       </Button>
                     }
                   </Grid.Column>
-               
-                {question.attachmentUrl && (
+              <Grid.Column width={16}>
+              {question.attachmentUrl && (
                   <Image src= {question.attachmentUrl} size="small" wrapped/>
                 )}
-              <Grid.Column width={16}>
                 <Divider />
               </Grid.Column>
             </Grid.Row>
           )
-          }
-         
+          } else {
+            return (
+              null
+          )
+        }
         })}
       </Grid>
     )
