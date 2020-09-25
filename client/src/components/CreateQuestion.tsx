@@ -53,20 +53,28 @@ export class CreateQuestion extends React.PureComponent<CreateQuestionProps, Cre
     }
     renderCreateQuestionInput() {
       const {optionOne, optionTwo} = this.state
+      const options = [{
+        label: 'Option One',
+        onChangefunction: this.handleOptionOneChange,
+        placeholder: 'Do this'
+      },
+      {
+        label: 'Option Two',
+        onChangefunction: this.handleOptionTwoChange,
+        placeholder: 'Do that'
+      },
+    ]
         return (
             <Form onSubmit= {this.onQuestionCreate} >
+              {options.map(option =>
                 <Form.Field>
-                    <label>Option One</label>
-                    <input 
-                        onChange={this.handleOptionTwoChange}
-                        placeholder='Do this' />
+                  <label>{option.label}</label>
+                  <input 
+                      onChange={option.onChangefunction}
+                      placeholder={option.placeholder} />
                 </Form.Field>
-                <Form.Field>
-                    <label>Option Two</label>
-                    <input 
-                        onChange={this.handleOptionOneChange}
-                        placeholder='Do that' />
-                </Form.Field>
+              )
+              }
                 <Button type='submit' disabled={optionOne.length <5 || optionTwo.length <5}>Submit</Button>
             </Form>
         )
