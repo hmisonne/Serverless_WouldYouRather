@@ -79,29 +79,45 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
     const { value } = this.state
     let optionOneText, optionTwoText
     this.state.question && ({optionOneText, optionTwoText } = this.state.question)
+    let questionOptions = [{
+      name: 'optionOneVote',
+      label: optionOneText,
+    },{
+      name: 'optionTwoVote',
+      label: optionTwoText,
+    }]
     return (
       <div>
         <Form>
           <Form.Group widths='equal'>
-  
-            <Form.Radio
-              label={optionOneText}
-              value='optionOneVote'
-              checked={value === 'optionOneVote'}
-              onChange={this.handleChange}
-              />
+            {questionOptions.map(option => 
               <Form.Radio
-              label={optionTwoText}
-              value='optionTwoVote'
-              checked={value === 'optionTwoVote'}
-              onChange={this.handleChange}
+                label={option.label}
+                value={option.name}
+                checked={value === option.name}
+                onChange={this.handleChange}
               />
+              )}
+            
               <Form.Button onClick={this.onSubmit}>Vote</Form.Button>
           </Form.Group>
         </Form>
       </div>
     )
   }
+
+  // <Form.Radio
+  //             label={optionOneText}
+  //             value='optionOneVote'
+  //             checked={value === 'optionOneVote'}
+  //             onChange={this.handleChange}
+  //             />
+  //             <Form.Radio
+  //             label={optionTwoText}
+  //             value='optionTwoVote'
+  //             checked={value === 'optionTwoVote'}
+  //             onChange={this.handleChange}
+  //             />
 
   renderViewPollDetails() {
     let optionOneResult = 0
