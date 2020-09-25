@@ -62,7 +62,7 @@ export class QuestionDetails extends React.PureComponent<QuestionsProps, Questio
   }
     
   render() {
-    const {currResponse, question} = this.state
+    const {currResponse } = this.state
     return (
       <div>
         <Header as="h1">Would You Rather</Header>
