@@ -11,7 +11,7 @@ I used a [CloudFormation Template](backend/serverless.yml) to deploy:
 - 2 DynamoDB tables to store records of Users and Questions
 - S3 bucket to store images uploaded by Users
 
-This project is also using a fully secured authentification system through Auth0.
+This project is also using a fully secured Authentification system through Auth0.
 
 The frontend is currently deployed on a S3 bucket.
 
