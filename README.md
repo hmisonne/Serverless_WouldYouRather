@@ -5,7 +5,7 @@
 
 This is my capstone project for the Cloud Developer Nanodegree. The goal of this project was to build and deploy a serverless application on AWS. To accomplish this task, I decided to build a "Would You Rather" game with a React frontend and a Node.JS backend using a serverless framework.
 
-I used a [CloudFormation Template](backend/serverless.yaml) to deploy:
+I used a [CloudFormation Template](backend/serverless.yml) to deploy:
 - An API gateway
 - Multiple Lambda Functions with proper IAM permissions
 - 2 DynamoDB tables to store records of Users and Questions
