@@ -3,7 +3,7 @@
 
 # Would You Rather - Serverless App
 
-This is my capstone project for the Cloud Developer Nanodegree. The goal of this project was to build and deploy a serverless application on AWS. To accomplish this task, I decided to build a "Would You Rather" game with a React frontend and a Node.JS backend using a serverless framework.
+The goal of this project is to build and deploy a serverless application on AWS. To accomplish this task, I decided to build a "Would You Rather" game with a React frontend and a Node.JS backend using a serverless framework.
 
 I used a [CloudFormation Template](backend/serverless.yml) to deploy:
 - An API gateway
@@ -11,9 +11,13 @@ I used a [CloudFormation Template](backend/serverless.yml) to deploy:
 - 2 DynamoDB tables to store records of Users and Questions
 - S3 bucket to store images uploaded by Users
 
-This project is also using a fully secured Authentification system through Auth0.
+On top of this architecture, I added:
+- A S3 bucket to host my website
+- A registered domain name: hmisonne.com on Route53
+- A CloudFront distribution to accelerate the content delivery
+- A SSL certificates issued from AWS Certificate Manager to secure network communications through https traffic.
 
-The frontend is currently deployed on a S3 bucket.
+This project is also using a fully secured Authentification system through Auth0.
 
 
 ![WYR AWS deployment](demo/WYR_AWS_Deployment.png)
@@ -44,17 +48,29 @@ The user can submit a new question by entering 2 options. Once created, the new 
 
 ![WYR Demo](demo/demo.gif)
 
-## How to run this application using the backend server already deployed in AWS
+## How to run this application locally on your laptop using the backend server already deployed in AWS
 
-To have the application running on your local machine, run the following commands:
+A version of this website is already running on https://hmisonne.com . If you wish to run this application locally follow these instructions:
+
+1. Update the callbackUrl on the client/config.ts file 
+
+```
+export const authConfig = {
+  ...        
+  callbackUrl: 'https://localhost:3000/callback'
+}
+```
+
+2. and run the following commands:
 
 ```
 cd client
 npm install
 npm run start
 ```
+The frontend will be running on `http://localhost:3000/` 
 
-## How to deploy your own version of this application to AWS Serverless
+## How to deploy your own version of the backend application to AWS Serverless
 
 ### Prerequisites
 
