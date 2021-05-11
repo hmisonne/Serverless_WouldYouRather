@@ -16,7 +16,7 @@
     "react-scripts": "3.4.1",
     "semantic-ui-react": "^0.86.0",
     "typescript": "~3.7.2",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "dateformat": "^3.0.3",
     "immutability-helper": "^3.0.2",
     "semantic-ui-css": "^2.4.1",
